@@ -1,0 +1,51 @@
+.result-container {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly ;
+}
+
+.result-container div{
+    width: min(30vw,275px);
+    height: min(40vw,375px);
+    overflow: hidden;
+    margin: 5px;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.result-container img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.result-container span{
+    position: absolute;
+    color: white;
+    background-color: #798190;
+    height: 17%;
+    width: 100%;
+    bottom: 0;
+    padding: 5px;
+    opacity: 0.7;
+    font-family: 'Open Sans';
+}
+.result-container>div:hover span{
+    opacity: 1;
+}
+
+.result-container a{
+    right: 0;
+    position: absolute;
+    bottom: 5px;
+    margin-right: 20px;
+    font-size: smaller;
+    text-decoration: none;
+    color:#333e5b
+
+    
+}
