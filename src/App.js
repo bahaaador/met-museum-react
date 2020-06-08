@@ -84,6 +84,7 @@ function App() {
         placeholder="Enter keyword here..."
         onChange={e => setKeywordDebounced(e.target.value)}
         ref={input => input && input.focus()}
+        aria-label="search term"
       />
       {isLoading ? (
         <Loading style={{ height: '200px' }} />
@@ -92,7 +93,7 @@ function App() {
             <ResultsCaption style={fadeInProps} total={searchResult.total} keyword={keyword} />
             <div >
               {chunk(searchResult.objectIDs, 200).map(ids =>
-                <LazyLoadedObjectListComponent key={ids[0]} data={ids}  />
+                <LazyLoadedObjectListComponent key={ids[0]} data={ids} />
               )}
             </div>
           </>

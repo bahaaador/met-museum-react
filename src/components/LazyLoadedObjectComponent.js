@@ -55,7 +55,7 @@ const LazyLoadedObjectComponent = ({ id, setDetailOverlay,...rest }) => {
                 <img alt={item.objectName} src={item.primaryImageSmall} />
                 <span>
                     {item.title}
-                    <a target="_new" href={item.objectURL}>
+                    <a target="_new" href={item.objectURL} aria-label={`View ${item.objectName} on museum's website`}>
                         Link
                 </a>
                 </span>
