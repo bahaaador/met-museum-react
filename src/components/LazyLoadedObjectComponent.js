@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-
+import { useSpring, animated } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
 
-const LazyLoadedObjectComponent = ({ id, setDetailOverlay,...rest }) => {
+const LazyLoadedObjectComponent = ({ id, setDetailOverlay, ...rest }) => {
     const [ref, inView] = useInView({
         rootMargin: '200px 0px',
     })
     const [item, setItem] = useState(null);
-  
-    
+
+
     useEffect(() => {
         const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries, it seemed to be working as expected in chrome but looks like there might be a bug in firefox causing an exception to be thrown
 
@@ -26,7 +26,7 @@ const LazyLoadedObjectComponent = ({ id, setDetailOverlay,...rest }) => {
 
             } catch (err) {
                 if (err.name === "AbortError") {
-                    console.log("Fetch aborted 👀x2");
+                    console.log("Fetch Details aborted 👀");
                     console.dir(err);
                 } else {
                     console.error("Error occured", err);
@@ -43,24 +43,27 @@ const LazyLoadedObjectComponent = ({ id, setDetailOverlay,...rest }) => {
     }, [id, inView]);
 
 
-
+    const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } })
+    const [{ transform, color, opacity }, set] = useSpring(() => ({ transform: 'scale(1)', color: '#fff' , opacity:'0.7'}));
     return (
-        <div ref={ref} {...rest}>
-            {inView && item ? <div
+        <div ref={ref} {...rest} onMouseOver={() => set({ y: 0, color: "#000", opacity:'1', transform: 'scale(1.03)' }) }
+       onMouseLeave={() => set({ y: 0, color: "#fff", opacity:'0.7', transform: 'scale(1)' })}
+        >
+            {inView && item ? <animated.div style={{...fadeInProps,transform }}
                 key={item.objectID}
                 onClick={() => {
                     setDetailOverlay(item);
                 }}
             >
                 <img alt={item.objectName} src={item.primaryImageSmall} />
-                <span>
+                <animated.span style={{ color , opacity}}>
                     {item.title}
                     <a target="_new" href={item.objectURL} aria-label={`View ${item.objectName} on museum's website`}>
                         Link
                 </a>
-                </span>
-                
-            </div> : null}
+                </animated.span>
+
+            </animated.div> : null}
         </div>
     )
 

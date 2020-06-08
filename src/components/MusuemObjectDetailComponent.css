@@ -20,6 +20,7 @@
   box-shadow: 10px 10px 54px -20px rgba(0, 0, 0, 0.75);
   border: 0.6px #bdbdbd solid;
   font-family: "Open Sans";
+  overflow: hidden;
 }
 
 .modal-content .image-wrapper {

@@ -10,7 +10,7 @@ const LazyLoadedObjectListComponent = ({ data, ...rest }) => {
     })
     const [detailOverlay, setDetailOverlay] = useState(null);
     return (
-        <div ref={ref} style={{minHeight: !inView? '3000px':null}} className={"Search-Result-Grid"}>
+        <div ref={ref} style={{minHeight: !inView? '30000px':null}} className={"Search-Result-Grid"}>
             {inView && data.map(id => <LazyLoadedObjectComponent {...rest} setDetailOverlay={setDetailOverlay} className={"object-container"} id={id} key={id} />)}
             {
               detailOverlay && (
