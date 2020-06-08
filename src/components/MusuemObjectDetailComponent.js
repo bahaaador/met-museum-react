@@ -7,7 +7,8 @@ const MusuemObjectDetailComponent = props => {
   return (
     <div className="modal-overlay" onClick={closeModal}>
       <div className="modal-content">
-        <img alt={item.objectName} src={item.primaryImageSmall} />
+        <div className="image-wrapper">
+          <img alt={item.objectName} src={item.primaryImageSmall} /></div>
         <label>Title:</label>
         {item.title}
         <br />

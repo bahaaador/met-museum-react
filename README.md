@@ -3,8 +3,9 @@
 This WebApp let's the user search through `The Metropolitan Museum of Art Collection` using [this API](https://metmuseum.github.io/). It's written in React and features:  
 - React Hooks
 - AbortController to cancel pending XHR requests when user updates search query
-- Intersection observer to implement lazy loading of each objects details
+- Intersection observer to implement lazy loading of each objects details (infinite scroll)
 - Animations using react-spring
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
