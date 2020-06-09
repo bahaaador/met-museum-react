@@ -29,7 +29,7 @@ function App() {
     );
 
   useEffect(() => {
-    const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries, it seemed to be working as expected in chrome but looks like there might be a bug in firefox causing an exception to be thrown
+    const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
 
     const fetchData = async () => {
       setIsLoading(true);
@@ -80,7 +80,7 @@ function App() {
     <animated.div style={fadeInProps} className="App">
       <animated.h1 style={titleAnimateProps}>🖼 Metropolitan Museum of Art</animated.h1>
       <input
-        type="text"
+        type="search"
         placeholder="Enter keyword here..."
         onChange={e => setKeywordDebounced(e.target.value)}
         ref={input => input && input.focus()}

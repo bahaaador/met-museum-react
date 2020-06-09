@@ -5,6 +5,7 @@ This WebApp let's the user search through `The Metropolitan Museum of Art Collec
 - AbortController to cancel pending XHR requests when user updates search query
 - Intersection observer to implement lazy loading of each objects details (infinite scroll)
 - Animations using react-spring
+- CSS grids and flexbox
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
