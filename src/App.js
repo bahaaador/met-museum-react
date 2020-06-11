@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import LazyLoadedObjectListComponent from "./components/LazyLoadedObjectListComponent";
 
 import "./App.css";
 import { useSpring, animated } from 'react-spring'
 import { ReactComponent as Loading } from './loading.svg';
-
-const defaultSearchResult = { total: 0, objectIDs: [] };
+import { appReducer, SET_KEYWORD, SET_RESULT, DEFAULT_SEARCH_RESULT, INITIAL_STATE } from './AppReducer';
 
 function App() {
-  const [keyword, setKeyword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchResult, setSearchResult] = useState(defaultSearchResult);
   const [timeoutToken, setTimeoutToken] = useState(null);
+
+  const [appState, dispatch] = useReducer(
+    appReducer,
+    INITIAL_STATE
+  );
+
+  const setSearchResultAction = result => {
+    dispatch({ type: SET_RESULT, payload: result });
+  };
+
+  const setKeywordAction = result => {
+    dispatch({ type: SET_KEYWORD, payload: result });
+  };
 
   /**
    * creates a "buffer" when user is typing a keyword to prevent multiple calls
@@ -19,7 +28,7 @@ function App() {
    */
   const setKeywordDebounced = keyword => {
     clearTimeout(timeoutToken);
-    var token = setTimeout(() => setKeyword(keyword), 400);
+    var token = setTimeout(() => setKeywordAction(keyword), 400);
     setTimeoutToken(token);
   };
 
@@ -28,16 +37,15 @@ function App() {
       arr.slice(i * size, i * size + size)
     );
 
+  const { keyword, isLoading, searchResult } = appState;
+
   useEffect(() => {
     const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
 
     const fetchData = async () => {
-      setIsLoading(true);
-
-      if (!keyword) {
-        setSearchResult(defaultSearchResult);
-        setIsLoading(false);
-      } else
+      if (!keyword)
+        setSearchResultAction(DEFAULT_SEARCH_RESULT);
+      else
         try {
           var res = await fetch(
             `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${keyword}`,
@@ -51,11 +59,10 @@ function App() {
           var response = await res.json();
 
           if (!response.objectIDs)
-            setSearchResult(defaultSearchResult);
+            setSearchResultAction(DEFAULT_SEARCH_RESULT);
           else
-            setSearchResult(response);
+            setSearchResultAction(response);
 
-          setIsLoading(false);
         } catch (err) {
           if (err.name === "AbortError") {
             console.log("Fetch aborted 👀");
@@ -78,7 +85,7 @@ function App() {
 
   return (
     <animated.div style={fadeInProps} className="App">
-      <animated.h1 style={titleAnimateProps}>🖼 Metropolitan Museum of Art</animated.h1>
+      <animated.h1 style={titleAnimateProps}>🏛 Metropolitan Museum of Art</animated.h1>
       <input
         type="search"
         placeholder="Enter keyword here..."
@@ -87,14 +94,16 @@ function App() {
         aria-label="search term"
       />
       {isLoading ? (
-        <Loading style={{ height: '200px' }} />
+        <Loading />
       ) : (
           <>
             <ResultsCaption style={fadeInProps} total={searchResult.total} keyword={keyword} />
             <div >
-              {chunk(searchResult.objectIDs, 200).map(ids =>
-                <LazyLoadedObjectListComponent key={ids[0]} data={ids} />
-              )}
+              { // break the results into chuncks of 200 items so that we can optimize performance by assigning
+                // intersection observer to items in each chunk based on current scroll position at any given time
+                chunk(searchResult.objectIDs, 200).map(ids =>
+                  <LazyLoadedObjectListComponent key={ids[0]} data={ids} />
+                )}
             </div>
           </>
         )}
