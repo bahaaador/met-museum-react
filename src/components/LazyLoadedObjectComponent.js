@@ -44,10 +44,10 @@ const LazyLoadedObjectComponent = ({ id, setDetailOverlay, ...rest }) => {
 
 
     const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } })
-    const [{ transform, color, opacity }, set] = useSpring(() => ({ transform: 'scale(1)', color: '#fff' , opacity:'0.7'}));
+    const [{ transform, color, opacity }, set] = useSpring(() => ({ transform: 'scale(1)', color: '#000' , opacity:'0.7'}));
     return (
-        <div ref={ref} {...rest} onMouseOver={() => set({ y: 0, color: "#000", opacity:'1', transform: 'scale(1.03)' }) }
-       onMouseLeave={() => set({ y: 0, color: "#fff", opacity:'0.7', transform: 'scale(1)' })}
+        <div ref={ref} {...rest} onMouseOver={() => set({ y: 0, color: "#fff", opacity:'1', transform: 'scale(1.03)' }) }
+       onMouseLeave={() => set({ y: 0, color: "#000", opacity:'0.7', transform: 'scale(1)' })}
         >
             {inView && item ? <animated.div style={{...fadeInProps,transform }}
                 key={item.objectID}
