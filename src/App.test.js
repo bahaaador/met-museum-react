@@ -1,9 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders search input', () => {
+  const { getByPlaceholderText } = render(<App />);
+  const searchBox = getByPlaceholderText(/Enter keyword here/i);
+  expect(searchBox).toBeInTheDocument();
+  fireEvent()
 });

@@ -1,64 +1,68 @@
-import React, { useEffect, useState } from "react";
-import MusuemObjectListComponent from "./components/MusuemObjectListComponent";
+import React, { useEffect, useState, useReducer } from "react";
+import LazyLoadedObjectListComponent from "./components/LazyLoadedObjectListComponent";
+
 import "./App.css";
 import { useSpring, animated } from 'react-spring'
 import { ReactComponent as Loading } from './loading.svg';
+import { appReducer, SET_KEYWORD, SET_RESULT, DEFAULT_SEARCH_RESULT, INITIAL_STATE } from './AppReducer';
+
 function App() {
-  const [keyword, setKeyword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [museObjects, setMuseObjects] = useState(null);
   const [timeoutToken, setTimeoutToken] = useState(null);
 
-  const props = useSpring({ opacity: 1, from: { opacity: 0 } })
-  const h1Props = useSpring({ width: 450, config: { duration: 1000 }, from: { width: 0 } })
+  const [appState, dispatch] = useReducer(
+    appReducer,
+    INITIAL_STATE
+  );
+
+  const setSearchResultAction = result => {
+    dispatch({ type: SET_RESULT, payload: result });
+  };
+
+  const setKeywordAction = result => {
+    dispatch({ type: SET_KEYWORD, payload: result });
+  };
+
   /**
    * creates a "buffer" when user is typing a keyword to prevent multiple calls
    * @param {*} keyword
    */
   const setKeywordDebounced = keyword => {
     clearTimeout(timeoutToken);
-    var token = setTimeout(() => setKeyword(keyword), 400);
+    var token = setTimeout(() => setKeywordAction(keyword), 400);
     setTimeoutToken(token);
   };
 
+  const chunk = (arr, size) =>
+    Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+      arr.slice(i * size, i * size + size)
+    );
+
+  const { keyword, isLoading, searchResult } = appState;
+
   useEffect(() => {
-    const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries, it seemed to be working as expected in chrome but looks like there might be a bug in firefox causing an exception to be thrown
+    const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
 
     const fetchData = async () => {
-      setIsLoading(true);
-
-      if (!keyword) {
-        setMuseObjects(null);
-        setIsLoading(false);
-      } else
+      if (!keyword)
+        setSearchResultAction(DEFAULT_SEARCH_RESULT);
+      else
         try {
           var res = await fetch(
             `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${keyword}`,
             {
               method: "GET",
-              signal: abortController.signal
+              signal: abortController.signal,
+              cache: "force-cache",
             }
           );
 
           var response = await res.json();
 
-          if (!response.objectIDs) setMuseObjects([]);
-          else {
-            var objects = await Promise.all(
-              response.objectIDs
-                .slice(0, 20) // take the first 20 items from results
-                .map(async objectID => {
-                  var res = await fetch(
-                    `https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectID}`,
-                    { cache: "force-cache", signal: abortController.signal } //quick and inexpensive way to force browser to cache these subsequent calls since these will most likely be static result
-                  );
-                  var response = await res.json();
-                  return response;
-                })
-            );
-            setMuseObjects(objects);
-          }
-          setIsLoading(false);
+          if (!response.objectIDs)
+            setSearchResultAction(DEFAULT_SEARCH_RESULT);
+          else
+            setSearchResultAction(response);
+
         } catch (err) {
           if (err.name === "AbortError") {
             console.log("Fetch aborted 👀");
@@ -76,22 +80,38 @@ function App() {
     };
   }, [keyword]);
 
+  const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } })
+  const titleAnimateProps = useSpring({ width: 450, config: { duration: 800 }, from: { width: 0 } })
+
   return (
-    <div style={props} className="App">
-      <animated.h1 style={h1Props}>🖼 Metropolitan Museum of Art</animated.h1>
+    <animated.div style={fadeInProps} className="App">
+      <animated.h1 style={titleAnimateProps}>🏛 Metropolitan Museum of Art</animated.h1>
       <input
-        type="text"
+        type="search"
         placeholder="Enter keyword here..."
         onChange={e => setKeywordDebounced(e.target.value)}
         ref={input => input && input.focus()}
-      ></input>
+        aria-label="search term"
+      />
       {isLoading ? (
-        <Loading style={{ height: '200px' }} />
+        <Loading />
       ) : (
-          museObjects != null && <MusuemObjectListComponent items={museObjects} />
+          <>
+            <ResultsCaption style={fadeInProps} total={searchResult.total} keyword={keyword} />
+            <div >
+              { // break the results into chuncks of 200 items so that we can optimize performance by assigning
+                // intersection observer to items in each chunk based on current scroll position at any given time
+                chunk(searchResult.objectIDs, 200).map(ids =>
+                  <LazyLoadedObjectListComponent key={ids[0]} data={ids} />
+                )}
+            </div>
+          </>
         )}
-    </div>
+    </animated.div>
   );
 }
+
+const ResultsCaption = ({ total, keyword, ...props }) => keyword ?
+  <animated.span className="Search-Caption" {...props}>{total + ` results for: ` + keyword}</animated.span> : null;
 
 export default App;
