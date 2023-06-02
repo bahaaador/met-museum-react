@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/met-museum-react/static/css/main.0e92cbbc.css",
-    "main.js": "/met-museum-react/static/js/main.5a94180b.js",
+    "main.js": "/met-museum-react/static/js/main.43aedccc.js",
     "index.html": "/met-museum-react/index.html",
     "static/media/loading.svg": "/met-museum-react/static/media/loading.20de04de3e36f54b55a90a25094b5205.svg",
     "main.0e92cbbc.css.map": "/met-museum-react/static/css/main.0e92cbbc.css.map",
-    "main.5a94180b.js.map": "/met-museum-react/static/js/main.5a94180b.js.map"
+    "main.43aedccc.js.map": "/met-museum-react/static/js/main.43aedccc.js.map"
   },
   "entrypoints": [
     "static/css/main.0e92cbbc.css",
-    "static/js/main.5a94180b.js"
+    "static/js/main.43aedccc.js"
   ]
 }
