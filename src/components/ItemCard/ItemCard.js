@@ -23,7 +23,6 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
         );
 
         var response = await res.json();
-        console.log(response);
         setItem(response);
       } catch (err) {
         if (err.name === "AbortError") {
@@ -37,7 +36,6 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
 
     if (inView) fetchData();
 
-    console.log(id, { inView });
     return function cleanup() {
       abortController.abort();
     };
@@ -49,24 +47,23 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
     transform: "scale(1)",
     color: "#000",
     opacity: "0.7",
-    marginTop: 1,
+    marginTop: 0,
   }));
 
   return (
     <animated.div
+      style={{ ...fadeInProps, transform }}
+      className={"object-container"}
       ref={ref}
-      {...rest}
       onMouseOver={() =>
         setAnimatedProps({
           color: "#fff",
           opacity: "1",
           transform: "scale(1.06)",
-          marginTop: 10,
         })
       }
       onMouseLeave={() =>
         setAnimatedProps({
-          x: 100,
           color: "#000",
           opacity: "0.7",
           transform: "scale(1)",
@@ -75,7 +72,6 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
     >
       {inView && item ? (
         <animated.div
-          style={{ ...fadeInProps, transform }}
           key={item.objectID}
           onClick={() => {
             setDetailOverlay(item);
@@ -86,13 +82,13 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
           )}
           <animated.span style={{ color, opacity }}>
             {item.title}
-            <a
+            {/* <a
               target="_new"
               href={item.objectURL}
               aria-label={`View ${item.objectName} on museum's website`}
             >
               Link
-            </a>
+            </a> */}
           </animated.span>
         </animated.div>
       ) : null}

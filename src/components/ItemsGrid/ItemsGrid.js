@@ -4,6 +4,8 @@ import "./ItemsGrid.css";
 
 const DetailsModal = lazy(() => import("components/DetailsModal/DetailsModal"));
 const ItemCard = lazy(() => import("components/ItemCard/ItemCard"));
+const ItemCardMemoized = React.memo(ItemCard);
+const DetailsModalMemoized = React.memo(DetailsModal);
 
 const ItemsGrid = ({ data, ...rest }) => {
   const [ref, inView] = useInView({
@@ -11,6 +13,7 @@ const ItemsGrid = ({ data, ...rest }) => {
   });
 
   const [detailsModalData, setDetailsModalData] = useState(null);
+
   return (
     <div
       ref={ref}
@@ -19,8 +22,7 @@ const ItemsGrid = ({ data, ...rest }) => {
     >
       {inView &&
         data.map((id) => (
-          <ItemCard
-            className={"object-container"}
+          <ItemCardMemoized
             {...rest}
             setDetailOverlay={setDetailsModalData}
             id={id}
@@ -29,7 +31,7 @@ const ItemsGrid = ({ data, ...rest }) => {
         ))}
 
       {detailsModalData && (
-        <DetailsModal
+        <DetailsModalMemoized
           item={detailsModalData}
           closeModal={() => setDetailsModalData(null)}
         />

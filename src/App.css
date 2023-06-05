@@ -11,10 +11,11 @@
   font-family: "Poiret One";
   color: #6f6965;
   padding: 5px 10px;
-  align-self: center;
   font-size: 3em;
   overflow: hidden;
   white-space: nowrap;
+  margin-left: 20px;
+  width: 0vw;
 }
 
 @media (max-width: 700px) {
@@ -35,13 +36,8 @@
   border-radius: 5px;
   margin: 0px 20px;
   outline: none;
-  font-family: "Poiret One";
+  font-family: "Arial";
   border-color: burlywood;
-  font-weight: 700;
-}
-
-.App svg {
-  height: 200px;
 }
 
 .Search-Caption {
@@ -49,4 +45,26 @@
   padding: 10px 0 0 25px;
   font-size: small;
   font-family: "Arial";
+}
+
+.Loading {
+  pointer-events: none;
+  width: 2.5em;
+  height: 2.5em;
+  border: 0.4em solid transparent;
+  border-color: #eee;
+  border-top-color: #87adde;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  align-self: center;
+  margin-top: 20vh;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* animate the spinner only if reduced-motion preference is not set */
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }

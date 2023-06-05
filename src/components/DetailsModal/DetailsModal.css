@@ -2,7 +2,7 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
-  /* overflow: auto; */
+  overflow: auto;
   top: 0;
   left: 0;
   background-color: rgba(255, 255, 255, 0.7);
@@ -22,7 +22,6 @@
   box-shadow: 10px 10px 54px 0px rgba(0, 0, 0, 0.75);
   border: 0.6px #bdbdbd solid;
   font-family: "Arial";
-  overflow: auto;
   background-color: #f9f4eefa;
 }
 
@@ -35,7 +34,7 @@
 .modal-content img {
   border-radius: 3px;
   max-height: 70vh;
-  max-width: 100%;
+  max-width: 80vw;
   margin-bottom: 10px;
 }
 

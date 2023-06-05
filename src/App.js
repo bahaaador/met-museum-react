@@ -1,8 +1,5 @@
 import React, { useEffect, useState, useReducer, lazy, Suspense } from "react";
-
-import "./App.css";
-import { useSpring, animated } from "react-spring";
-import { ReactComponent as LoadingIndicator } from "./assets/loading.svg";
+import { useSpring, animated, Globals, useReducedMotion } from "react-spring";
 import {
   appReducer,
   SET_KEYWORD,
@@ -11,9 +8,9 @@ import {
   INITIAL_STATE,
 } from "./AppReducer";
 
-const ItemsGridComponent = lazy(() =>
-  import("./components/ItemsGrid/ItemsGrid")
-);
+import "./App.css";
+
+const ItemsGrid = lazy(() => import("./components/ItemsGrid"));
 
 function App() {
   const [timeoutToken, setTimeoutToken] = useState(null); //todo useRef
@@ -44,6 +41,16 @@ function App() {
     );
 
   const { keyword, isLoading, searchResult } = appState;
+
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    Globals.assign({
+      skipAnimation: prefersReducedMotion, // disable all spring animations if user prefers reduced motions
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
@@ -84,10 +91,11 @@ function App() {
   }, [keyword]);
 
   const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
+
   const titleAnimateProps = useSpring({
-    width: 450,
+    width: "100vw",
     config: { duration: 800 },
-    from: { width: 0 },
+    from: { width: "0vw" },
   });
 
   return (
@@ -101,7 +109,10 @@ function App() {
         onChange={(e) => setKeywordDebounced(e.target.value)}
         aria-label="search term"
       />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingIndicator />}>
+        {
+          // display loading indicator when loading components, also when fetching data from api
+        }
         {isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -116,7 +127,7 @@ function App() {
                 // break the results into chuncks of 200 items so that we can optimize performance by assigning
                 // intersection observer to items in each chunk based on current scroll position at any given time
                 chunk(searchResult.objectIDs, 200).map((ids) => (
-                  <ItemsGridComponent key={ids[0]} data={ids} />
+                  <ItemsGrid key={ids[0]} data={ids} />
                 ))
               }
             </div>
@@ -126,6 +137,8 @@ function App() {
     </animated.div>
   );
 }
+
+const LoadingIndicator = () => <div className="Loading"></div>;
 
 const ResultsCaption = ({ total, keyword, ...props }) =>
   keyword ? (

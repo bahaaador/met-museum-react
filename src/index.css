@@ -2,7 +2,7 @@
 
 html {
   height: 100%;
-  width: 100vw; /* helps prevent */
+  width: 100vw; /* helps prevent shifting window width when disabling scroll*/
 }
 
 body {
@@ -15,6 +15,7 @@ body {
   min-height: 100%;
   position: relative;
   background-color: #f9f4eeed;
+  font-size: 16px;
   /* padding-bottom: 50px; */
 }
 
@@ -24,9 +25,4 @@ footer {
   bottom: 0;
   text-align: center;
   padding: 10px 0;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }
