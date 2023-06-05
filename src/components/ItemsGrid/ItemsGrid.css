@@ -1,0 +1,8 @@
+.Search-Result-Grid {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  grid-auto-rows: 425px;
+  padding: 20px;
+  margin-bottom: 50px;
+}

@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useReducer, lazy, Suspense } from "react";
-import { ObjectCardGridComponent } from "components/ObjectCardGridComponent";
 
 import "./App.css";
 import { useSpring, animated } from "react-spring";
-import { config } from "@react-spring/web";
-import { ReactComponent as Loading } from "./assets/loading.svg";
+import { ReactComponent as LoadingIndicator } from "./assets/loading.svg";
 import {
   appReducer,
   SET_KEYWORD,
@@ -13,13 +11,9 @@ import {
   INITIAL_STATE,
 } from "./AppReducer";
 
-function App() {
-  const [timeoutToken, setTimeoutToken] = useState(null);
-
-  const [appState, dispatch] = useReducer(
-    appReducer,
-    INITIAL_STATE
-  );
+const ItemsGridComponent = lazy(() =>
+  import("./components/ItemsGrid/ItemsGrid")
+);
 
 function App() {
   const [timeoutToken, setTimeoutToken] = useState(null); //todo useRef
@@ -30,7 +24,7 @@ function App() {
     dispatch({ type: SET_RESULT, payload: result });
   };
 
-  const setKeywordAction = result => {
+  const setKeywordAction = (result) => {
     dispatch({ type: SET_KEYWORD, payload: result });
   };
 
@@ -89,33 +83,46 @@ function App() {
     };
   }, [keyword]);
 
-  const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } })
-  const titleAnimateProps = useSpring({ width: 450, config: { duration: 800 }, from: { width: 0 } })
+  const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
+  const titleAnimateProps = useSpring({
+    width: 450,
+    config: { duration: 800 },
+    from: { width: 0 },
+  });
 
   return (
     <animated.div style={fadeInProps} className="App">
-      <animated.h1 style={titleAnimateProps}>🏛 Metropolitan Museum of Art</animated.h1>
+      <animated.h1 style={titleAnimateProps}>
+        🏛 Metropolitan Museum of Art
+      </animated.h1>
       <input
         type="search"
         placeholder="Enter keyword here..."
-        onChange={e => setKeywordDebounced(e.target.value)}
-        ref={input => input && input.focus()}
+        onChange={(e) => setKeywordDebounced(e.target.value)}
         aria-label="search term"
       />
-      {isLoading ? (
-        <Loading />
-      ) : (
+      <Suspense fallback={<div>Loading...</div>}>
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
           <>
-            <ResultsCaption style={fadeInProps} total={searchResult.total} keyword={keyword} />
-            <div >
-              { // break the results into chuncks of 200 items so that we can optimize performance by assigning
+            <ResultsCaption
+              style={fadeInProps}
+              total={searchResult.total}
+              keyword={keyword}
+            />
+            <div>
+              {
+                // break the results into chuncks of 200 items so that we can optimize performance by assigning
                 // intersection observer to items in each chunk based on current scroll position at any given time
-                chunk(searchResult.objectIDs, 200).map(ids =>
-                  <LazyLoadedObjectListComponent key={ids[0]} data={ids} />
-                )}
+                chunk(searchResult.objectIDs, 200).map((ids) => (
+                  <ItemsGridComponent key={ids[0]} data={ids} />
+                ))
+              }
             </div>
           </>
         )}
+      </Suspense>
     </animated.div>
   );
 }
