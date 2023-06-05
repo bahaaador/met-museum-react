@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/met-museum-react/static/css/main.21e19b8d.css",
+    "main.css": "/met-museum-react/static/css/main.1c591703.css",
     "main.js": "/met-museum-react/static/js/main.8b0f7ee8.js",
     "static/css/571.4dac38be.chunk.css": "/met-museum-react/static/css/571.4dac38be.chunk.css",
     "static/js/571.3cd0d6be.chunk.js": "/met-museum-react/static/js/571.3cd0d6be.chunk.js",
@@ -9,7 +9,7 @@
     "static/css/591.e8875537.chunk.css": "/met-museum-react/static/css/591.e8875537.chunk.css",
     "static/js/591.35e6c734.chunk.js": "/met-museum-react/static/js/591.35e6c734.chunk.js",
     "index.html": "/met-museum-react/index.html",
-    "main.21e19b8d.css.map": "/met-museum-react/static/css/main.21e19b8d.css.map",
+    "main.1c591703.css.map": "/met-museum-react/static/css/main.1c591703.css.map",
     "main.8b0f7ee8.js.map": "/met-museum-react/static/js/main.8b0f7ee8.js.map",
     "571.4dac38be.chunk.css.map": "/met-museum-react/static/css/571.4dac38be.chunk.css.map",
     "571.3cd0d6be.chunk.js.map": "/met-museum-react/static/js/571.3cd0d6be.chunk.js.map",
@@ -19,7 +19,7 @@
     "591.35e6c734.chunk.js.map": "/met-museum-react/static/js/591.35e6c734.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.21e19b8d.css",
+    "static/css/main.1c591703.css",
     "static/js/main.8b0f7ee8.js"
   ]
 }
