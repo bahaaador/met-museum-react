@@ -2,35 +2,35 @@
   padding-bottom: 20px;
 } */
 
-.App {
+.app {
   display: flex;
   flex-flow: column;
 }
 
-.App h1 {
+.app h1 {
   font-family: "Poiret One";
   color: #6f6965;
   padding: 5px 10px;
   font-size: 3em;
   overflow: hidden;
   white-space: nowrap;
-  margin-left: 20px;
+  margin-left: 2vw;
   width: 0vw;
 }
 
 @media (max-width: 700px) {
-  .App h1 {
+  .app h1 {
     font-size: 2em;
   }
 }
 
 @media (max-width: 500px) {
-  .App h1 {
+  .app h1 {
     font-size: 1.5em;
   }
 }
 
-.App input {
+.app input {
   padding: 5px 10px;
   font-size: larger;
   border-radius: 5px;
@@ -40,14 +40,14 @@
   border-color: burlywood;
 }
 
-.Search-Caption {
+.search-caption {
   opacity: 0.8;
   padding: 10px 0 0 25px;
   font-size: small;
   font-family: "Arial";
 }
 
-.Loading {
+.loading {
   pointer-events: none;
   width: 2.5em;
   height: 2.5em;

@@ -1,11 +1,11 @@
-.object-container {
+.card {
   background: #bdbdbd;
   border-radius: 10px;
   /* overflow: hidden; */
   box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.48);
 }
 
-.object-container div {
+.card div {
   /* width: 100%; */
   height: 100%;
   overflow: hidden;
@@ -14,14 +14,14 @@
   cursor: pointer;
 }
 
-.object-container img {
+.card img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.object-container span {
+.card span {
   position: absolute;
   color: white;
   background-color: #ae967ced;
@@ -37,13 +37,3 @@
   white-space: nowrap;
   overflow: hidden;
 }
-/* 
-.object-container a {
-  right: 0;
-  position: absolute;
-  bottom: 5px;
-  right: 10px;
-  font-size: smaller;
-  text-decoration: none;
-  color: #333e5b;
-} */

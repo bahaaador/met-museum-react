@@ -18,7 +18,7 @@ const ItemsGrid = ({ data, ...rest }) => {
     <div
       ref={ref}
       style={{ minHeight: !inView ? "30000px" : null }}
-      className={"Search-Result-Grid"}
+      className={"search-result-grid"}
     >
       {inView &&
         data.map((id) => (

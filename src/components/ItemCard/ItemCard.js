@@ -53,7 +53,7 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
   return (
     <animated.div
       style={{ ...fadeInProps, transform }}
-      className={"object-container"}
+      className={"card"}
       ref={ref}
       onMouseOver={() =>
         setAnimatedProps({

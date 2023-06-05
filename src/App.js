@@ -99,7 +99,7 @@ function App() {
   });
 
   return (
-    <animated.div style={fadeInProps} className="App">
+    <animated.div style={fadeInProps} className="app">
       <animated.h1 style={titleAnimateProps}>
         🏛 Metropolitan Museum of Art
       </animated.h1>
@@ -138,11 +138,11 @@ function App() {
   );
 }
 
-const LoadingIndicator = () => <div className="Loading"></div>;
+const LoadingIndicator = () => <div className="loading"></div>;
 
 const ResultsCaption = ({ total, keyword, ...props }) =>
   keyword ? (
-    <animated.span className="Search-Caption" {...props}>
+    <animated.span className="search-caption" {...props}>
       {total + ` results for: ` + keyword}
     </animated.span>
   ) : null;
