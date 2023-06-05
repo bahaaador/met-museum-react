@@ -1,10 +1,17 @@
-import React, { useEffect, useState, useReducer } from "react";
-import LazyLoadedObjectListComponent from "./components/LazyLoadedObjectListComponent";
+import React, { useEffect, useState, useReducer, lazy, Suspense } from "react";
+import { ObjectCardGridComponent } from "components/ObjectCardGridComponent";
 
 import "./App.css";
-import { useSpring, animated } from 'react-spring'
-import { ReactComponent as Loading } from './loading.svg';
-import { appReducer, SET_KEYWORD, SET_RESULT, DEFAULT_SEARCH_RESULT, INITIAL_STATE } from './AppReducer';
+import { useSpring, animated } from "react-spring";
+import { config } from "@react-spring/web";
+import { ReactComponent as Loading } from "./assets/loading.svg";
+import {
+  appReducer,
+  SET_KEYWORD,
+  SET_RESULT,
+  DEFAULT_SEARCH_RESULT,
+  INITIAL_STATE,
+} from "./AppReducer";
 
 function App() {
   const [timeoutToken, setTimeoutToken] = useState(null);
@@ -14,7 +21,12 @@ function App() {
     INITIAL_STATE
   );
 
-  const setSearchResultAction = result => {
+function App() {
+  const [timeoutToken, setTimeoutToken] = useState(null); //todo useRef
+
+  const [appState, dispatch] = useReducer(appReducer, INITIAL_STATE);
+
+  const setSearchResultAction = (result) => {
     dispatch({ type: SET_RESULT, payload: result });
   };
 
@@ -26,7 +38,7 @@ function App() {
    * creates a "buffer" when user is typing a keyword to prevent multiple calls
    * @param {*} keyword
    */
-  const setKeywordDebounced = keyword => {
+  const setKeywordDebounced = (keyword) => {
     clearTimeout(timeoutToken);
     var token = setTimeout(() => setKeywordAction(keyword), 400);
     setTimeoutToken(token);
@@ -43,12 +55,11 @@ function App() {
     const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
 
     const fetchData = async () => {
-      if (!keyword)
-        setSearchResultAction(DEFAULT_SEARCH_RESULT);
-      else
+      if (!keyword) setSearchResultAction(DEFAULT_SEARCH_RESULT);
+      else {
         try {
           var res = await fetch(
-            `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${keyword}`,
+            `https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${keyword}`,
             {
               method: "GET",
               signal: abortController.signal,
@@ -58,19 +69,17 @@ function App() {
 
           var response = await res.json();
 
-          if (!response.objectIDs)
-            setSearchResultAction(DEFAULT_SEARCH_RESULT);
-          else
-            setSearchResultAction(response);
-
+          if (!response.objectIDs) setSearchResultAction(DEFAULT_SEARCH_RESULT);
+          else setSearchResultAction(response);
         } catch (err) {
           if (err.name === "AbortError") {
             console.log("Fetch aborted 👀");
             console.dir(err);
           } else {
-            console.error("Error occured", err);
+            console.error("Error connecting to the API.", err.message);
           }
         }
+      }
     };
 
     fetchData();
@@ -111,7 +120,11 @@ function App() {
   );
 }
 
-const ResultsCaption = ({ total, keyword, ...props }) => keyword ?
-  <animated.span className="Search-Caption" {...props}>{total + ` results for: ` + keyword}</animated.span> : null;
+const ResultsCaption = ({ total, keyword, ...props }) =>
+  keyword ? (
+    <animated.span className="Search-Caption" {...props}>
+      {total + ` results for: ` + keyword}
+    </animated.span>
+  ) : null;
 
 export default App;
