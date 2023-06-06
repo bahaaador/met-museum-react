@@ -10,6 +10,13 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
 
   const [item, setItem] = useState(null);
 
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoaded = () => {
+    console.log("handleImageLoaded", { imageLoaded });
+    setImageLoaded(true);
+  };
+
   useEffect(() => {
     const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
 
@@ -43,12 +50,46 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
 
   const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
 
+  const fadeInPropsImage = useSpring({
+    opacity: imageLoaded ? 1 : 0,
+  });
+
   const [{ transform, color, opacity }, setAnimatedProps] = useSpring(() => ({
     transform: "scale(1)",
     color: "#000",
     opacity: "0.7",
     marginTop: 0,
   }));
+
+  const renderCardContent = () => {
+    if (!inView) {
+      return null;
+    }
+
+    if (item == null) {
+      return <Shimmer />;
+    }
+
+    return (
+      <animated.div
+        key={item.objectID}
+        onClick={() => {
+          setDetailOverlay(item);
+        }}
+      >
+        {item.primaryImageSmall && (
+          <animated.img
+            style={fadeInPropsImage}
+            hidden={true}
+            alt={item.objectName}
+            src={item.primaryImageSmall}
+            onLoad={handleImageLoaded}
+          />
+        )}
+        <animated.span style={{ color, opacity }}>{item.title}</animated.span>
+      </animated.div>
+    );
+  };
 
   return (
     <animated.div
@@ -70,30 +111,18 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
         })
       }
     >
-      {inView && item ? (
-        <animated.div
-          key={item.objectID}
-          onClick={() => {
-            setDetailOverlay(item);
-          }}
-        >
-          {item.primaryImageSmall && (
-            <img alt={item.objectName} src={item.primaryImageSmall} />
-          )}
-          <animated.span style={{ color, opacity }}>
-            {item.title}
-            {/* <a
-              target="_new"
-              href={item.objectURL}
-              aria-label={`View ${item.objectName} on museum's website`}
-            >
-              Link
-            </a> */}
-          </animated.span>
-        </animated.div>
-      ) : null}
+      {renderCardContent()}
     </animated.div>
   );
 };
+
+const Shimmer = () => (
+  <div className="shimmer" aria-label="Loading content">
+    <div className="image" />
+    <div className="content">
+      <span className="title" />
+    </div>
+  </div>
+);
 
 export default ItemCard;
