@@ -13,6 +13,13 @@ import "./App.css";
 const ItemsGrid = lazy(() => import("./components/ItemsGrid"));
 
 function App() {
+  const [scrolled, setScrolled] = useState(false);
+
+  const handleScroll = () => {
+    if (window.pageYOffset < 10) setScrolled(false);
+    else if (window.pageYOffset > 150) setScrolled(true);
+  };
+
   const [timeoutToken, setTimeoutToken] = useState(null); //todo useRef
 
   const [appState, dispatch] = useReducer(appReducer, INITIAL_STATE);
@@ -48,6 +55,10 @@ function App() {
     Globals.assign({
       skipAnimation: prefersReducedMotion, // disable all spring animations if user prefers reduced motions
     });
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -93,22 +104,25 @@ function App() {
   const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
 
   const titleAnimateProps = useSpring({
-    width: "100vw",
-    config: { duration: 800 },
     from: { width: "0vw" },
+    width: "100vw",
+    // config: { duration: 800 },
+    marginTop: scrolled ? "-2em" : "0.67em",
   });
 
   return (
     <animated.div style={fadeInProps} className="app">
-      <animated.h1 style={titleAnimateProps}>
-        🏛 Metropolitan Museum of Art
-      </animated.h1>
-      <input
-        type="search"
-        placeholder="Enter keyword here..."
-        onChange={(e) => setKeywordDebounced(e.target.value)}
-        aria-label="search term"
-      />
+      <animated.div className="header">
+        <animated.h1 style={titleAnimateProps}>
+          🏛 Metropolitan Museum of Art
+        </animated.h1>
+        <input
+          type="search"
+          placeholder="Enter keyword here..."
+          onChange={(e) => setKeywordDebounced(e.target.value)}
+          aria-label="search term"
+        />
+      </animated.div>
       <Suspense fallback={<LoadingIndicator />}>
         {
           // display loading indicator when loading components, also when fetching data from api
