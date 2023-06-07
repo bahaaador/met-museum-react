@@ -7,55 +7,6 @@
   flex-flow: column;
 }
 
-.header {
-  display: flex;
-  flex-flow: column;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: #f9f4eeed;
-}
-
-.app h1 {
-  font-family: "Poiret One";
-  color: #6f6965;
-  padding: 5px 10px;
-  font-size: 3em;
-  overflow: hidden;
-  white-space: nowrap;
-  margin-left: 2vw;
-}
-
-@media (max-width: 700px) {
-  .app h1 {
-    font-size: 2em;
-  }
-}
-
-@media (max-width: 500px) {
-  .app h1 {
-    font-size: 1.5em;
-  }
-}
-
-.app input {
-  padding: 5px 10px;
-  font-size: larger;
-  border-radius: 5px;
-  margin: 0px 20px;
-  outline: none;
-  font-family: "Arial";
-  border-color: burlywood;
-  margin-bottom: 1em;
-}
-
-.search-caption {
-  opacity: 0.8;
-  padding-left: 25px;
-  font-size: small;
-  font-family: "Arial";
-}
-
 .loading {
   pointer-events: none;
   width: 2.5em;
