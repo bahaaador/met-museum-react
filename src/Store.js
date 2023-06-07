@@ -1,3 +1,4 @@
+import { fetchMetCollection } from "api/metMusuem";
 import { create } from "zustand";
 
 const INITIAL_STATE = {
@@ -8,32 +9,35 @@ const INITIAL_STATE = {
 };
 
 export const useMetStore = create((set, get) => ({
-  keyword: INITIAL_STATE.keyword,
-  total: INITIAL_STATE.total,
-  objectIDs: INITIAL_STATE.objectIDs,
-  isLoading: false,
+  ...INITIAL_STATE,
   detailsModalOpen: false,
   detailsModalData: {},
+  abortController: new AbortController(),
 
   setKeyword: (keyword) =>
-    set((state) => ({
+    set(() => ({
+      ...INITIAL_STATE, // reset state when keyword updated
       keyword,
-      objectIDs: INITIAL_STATE.objectIDs,
-      total: INITIAL_STATE.total,
     })),
-  setDetailsModalOpen: (open) => set((state) => ({ detailsModalOpen: open })),
+  setDetailsModalOpen: (open) => set(() => ({ detailsModalOpen: open })),
   setDetailsModalData: (data) =>
-    set((state) => ({ detailsModalOpen: true, detailsModalData: data })),
+    set(() => ({ detailsModalOpen: true, detailsModalData: data })), // open modal as soon as data is set
 
   fetchResult: async () => {
+    get().abortController.abort(); // cancel the previous request
     set({ isLoading: true });
-    await fetch(
-      `https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${
-        get().keyword
-      }`
-    )
-      .then((response) => response.json())
-      .then((data) => set({ objectIDs: data.objectIDs, total: data.total }))
-      .finally(() => set({ isLoading: false }));
+
+    try {
+      const data = await fetchMetCollection(
+        get().keyword,
+        get().abortController.signal
+      );
+
+      set({ objectIDs: data.objectIDs, total: data.total });
+    } catch (error) {
+      console.error(error); // TODO: add error state and update UI accordingly to communicate it to the user
+    } finally {
+      set({ isLoading: false });
+    }
   },
 }));

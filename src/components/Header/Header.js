@@ -46,10 +46,6 @@ const Header = () => {
 
   useEffect(() => {
     if (keyword) fetchResult();
-
-    return function cleanup() {
-      // abortController.abort();
-    };
   }, [fetchResult, keyword]);
 
   return (

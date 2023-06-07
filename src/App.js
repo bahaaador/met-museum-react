@@ -3,7 +3,9 @@ import { useSpring, animated, Globals, useReducedMotion } from "react-spring";
 
 import { useMetStore } from "./Store";
 import Header from "components/Header";
+
 import "./App.css";
+import { chunkArray } from "utils";
 
 const ItemsGrid = lazy(() => import("components/ItemsGrid"));
 const DetailsModal = lazy(() => import("components/DetailsModal"));
@@ -12,12 +14,6 @@ function App() {
   const objectIDs = useMetStore((state) => state.objectIDs);
   const isLoading = useMetStore((state) => state.isLoading);
   const detailsModalOpen = useMetStore((state) => state.detailsModalOpen);
-
-  const chunk = (arr, size) => {
-    return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
-      arr.slice(i * size, i * size + size)
-    );
-  };
 
   const prefersReducedMotion = useReducedMotion();
 
@@ -44,9 +40,9 @@ function App() {
             <>
               {
                 // break the results into chuncks of 200 items so that we can optimize performance by assigning
-                // intersection observer to items in each chunk based on current scroll position at any given time
+                // intersection observer to lload items in each chunk based on current scroll position at any given time
                 objectIDs &&
-                  chunk(objectIDs, 200).map((ids) => (
+                  chunkArray(objectIDs, 200).map((ids) => (
                     <ItemsGrid key={ids[0]} data={ids} />
                   ))
               }

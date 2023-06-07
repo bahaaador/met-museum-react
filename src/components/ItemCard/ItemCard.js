@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { useMetStore } from "Store";
 
 import "./ItemCard.css";
+import { fetchItemDetails } from "api/metMusuem";
 
 const ItemCard = ({ id }) => {
   const [ref, inView] = useInView({
@@ -26,13 +27,8 @@ const ItemCard = ({ id }) => {
       console.info("fetching details for object id:" + id);
 
       try {
-        var res = await fetch(
-          `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`,
-          { cache: "force-cache", signal: abortController.signal } // quick and inexpensive way to force browser to cache these subsequent calls since these will most likely be static result
-        );
-
-        var response = await res.json();
-        setItem(response);
+        const data = await fetchItemDetails(id, abortController.signal);
+        setItem(data);
       } catch (err) {
         if (err.name === "AbortError") {
           console.log("Fetch details aborted 👀");
@@ -64,13 +60,9 @@ const ItemCard = ({ id }) => {
   }));
 
   const renderCardContent = () => {
-    if (!inView) {
-      return null;
-    }
+    if (!inView) return null;
 
-    if (item == null) {
-      return <Shimmer />;
-    }
+    if (item == null) return <Shimmer />;
 
     return (
       <animated.div

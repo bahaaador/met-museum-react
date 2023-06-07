@@ -3,7 +3,7 @@
         "target": "es6",
         "module": "commonjs",
         "jsx": "react",
-        "checkJs": true,
+        "checkJs": false,
         "allowJs": true,
         "baseUrl": ".",
         "paths": {
