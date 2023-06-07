@@ -21,9 +21,9 @@ export const useMetStore = create((set, get) => ({
       objectIDs: INITIAL_STATE.objectIDs,
       total: INITIAL_STATE.total,
     })),
-  setdetailsModalOpen: (open) => set((state) => ({ detailsModalOpen: open })),
-  setdetailsModaldata: (data) =>
-    set((state) => ({ kedetailsModalDatayword: data })),
+  setDetailsModalOpen: (open) => set((state) => ({ detailsModalOpen: open })),
+  setDetailsModalData: (data) =>
+    set((state) => ({ detailsModalOpen: true, detailsModalData: data })),
 
   fetchResult: async () => {
     set({ isLoading: true });

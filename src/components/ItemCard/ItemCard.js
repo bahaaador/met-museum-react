@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
+import { useMetStore } from "Store";
+
 import "./ItemCard.css";
 
-const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
+const ItemCard = ({ id }) => {
   const [ref, inView] = useInView({
     rootMargin: "200px 0px",
   });
 
-  const [item, setItem] = useState(null);
+  const setDetailsModalData = useMetStore((state) => state.setDetailsModalData);
 
+  const [item, setItem] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleImageLoaded = () => {
-    console.log("handleImageLoaded", { imageLoaded });
     setImageLoaded(true);
   };
 
@@ -74,7 +76,7 @@ const ItemCard = ({ id, setDetailOverlay, ...rest }) => {
       <animated.div
         key={item.objectID}
         onClick={() => {
-          setDetailOverlay(item);
+          setDetailsModalData(item);
         }}
       >
         {item.primaryImageSmall && (

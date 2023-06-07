@@ -51,7 +51,7 @@
 
 .search-caption {
   opacity: 0.8;
-  padding: 10px 0 0 25px;
+  padding-left: 25px;
   font-size: small;
   font-family: "Arial";
 }

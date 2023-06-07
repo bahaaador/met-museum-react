@@ -6,6 +6,7 @@ import { useMetStore } from "./Store";
 import "./App.css";
 
 const ItemsGrid = lazy(() => import("./components/ItemsGrid"));
+const DetailsModal = lazy(() => import("components/DetailsModal/DetailsModal"));
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,6 +15,8 @@ function App() {
   const total = useMetStore((state) => state.total);
   const objectIDs = useMetStore((state) => state.objectIDs);
   const isLoading = useMetStore((state) => state.isLoading);
+  const detailsModalOpen = useMetStore((state) => state.detailsModalOpen);
+
   const setKeyword = useMetStore((state) => state.setKeyword);
   const fetchResult = useMetStore((state) => state.fetchResult);
 
@@ -113,6 +116,7 @@ function App() {
           </>
         )}
       </Suspense>
+      <Suspense>{detailsModalOpen && <DetailsModal />}</Suspense>
     </animated.div>
   );
 }
