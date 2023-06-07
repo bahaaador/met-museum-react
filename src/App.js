@@ -2,11 +2,11 @@ import React, { useEffect, lazy, Suspense } from "react";
 import { useSpring, animated, Globals, useReducedMotion } from "react-spring";
 
 import { useMetStore } from "./Store";
-import Header from "components/Header/Header";
+import Header from "components/Header";
 import "./App.css";
 
-const ItemsGrid = lazy(() => import("./components/ItemsGrid"));
-const DetailsModal = lazy(() => import("components/DetailsModal/DetailsModal"));
+const ItemsGrid = lazy(() => import("components/ItemsGrid"));
+const DetailsModal = lazy(() => import("components/DetailsModal"));
 
 function App() {
   const objectIDs = useMetStore((state) => state.objectIDs);
@@ -38,21 +38,21 @@ function App() {
       <Suspense fallback={<LoadingIndicator />}>
         {
           // display loading indicator when loading components, also when fetching data from api
+          isLoading ? (
+            <LoadingIndicator />
+          ) : (
+            <>
+              {
+                // break the results into chuncks of 200 items so that we can optimize performance by assigning
+                // intersection observer to items in each chunk based on current scroll position at any given time
+                objectIDs &&
+                  chunk(objectIDs, 200).map((ids) => (
+                    <ItemsGrid key={ids[0]} data={ids} />
+                  ))
+              }
+            </>
+          )
         }
-        {isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          <>
-            {
-              // break the results into chuncks of 200 items so that we can optimize performance by assigning
-              // intersection observer to items in each chunk based on current scroll position at any given time
-              objectIDs &&
-                chunk(objectIDs, 200).map((ids) => (
-                  <ItemsGrid key={ids[0]} data={ids} />
-                ))
-            }
-          </>
-        )}
       </Suspense>
       <Suspense>{detailsModalOpen && <DetailsModal />}</Suspense>
     </animated.div>

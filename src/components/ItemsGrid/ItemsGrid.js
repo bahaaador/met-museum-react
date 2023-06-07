@@ -1,4 +1,4 @@
-import React, { useState, lazy } from "react";
+import React, { lazy } from "react";
 import { useInView } from "react-intersection-observer";
 import "./ItemsGrid.css";
 

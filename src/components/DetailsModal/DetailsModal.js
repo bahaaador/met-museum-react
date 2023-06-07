@@ -22,7 +22,7 @@ const DetailsModal = () => {
   });
 
   const onClose = () => {
-    // set the local state to close for the aimation to go through and then close the modal after 250 ms
+    // first set the local state to false for the aimation to go through and then close the modal after 250 ms
     setIsOpen(false);
     setTimeout(() => setDetailsModalOpen(false), 250);
   };
@@ -53,13 +53,13 @@ const DetailsModal = () => {
           </div>
           {
             // added a null check for the ones I noticed are sometimes returned as null from the server, for a better user experience :)
+            data.artistDisplayName && (
+              <div className="item-row">
+                <label>Artist:</label>
+                <div>{data.artistDisplayName}</div>
+              </div>
+            )
           }
-          {data.artistDisplayName && (
-            <div className="item-row">
-              <label>Artist:</label>
-              <div>{data.artistDisplayName}</div>
-            </div>
-          )}
           {data.classification && (
             <div className="item-row">
               <label>Classification:</label>
