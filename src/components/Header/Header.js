@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 
 import { useMetStore } from "Store";
@@ -6,6 +6,9 @@ import { useMetStore } from "Store";
 import "./Header.css";
 
 const Header = () => {
+  const keyword = useMetStore((state) => state.keyword);
+  const total = useMetStore((state) => state.total);
+
   const setKeyword = useMetStore((state) => state.setKeyword);
   const fetchResult = useMetStore((state) => state.fetchResult);
 
@@ -14,26 +17,26 @@ const Header = () => {
     else if (window.pageYOffset > 150) setScrolled(true);
   };
 
-  const [timeoutToken, setTimeoutToken] = useState(null); //todo useRef
+  const timeoutToken = useRef(null);
   const [scrolled, setScrolled] = useState(false);
 
-  const keyword = useMetStore((state) => state.keyword);
   /**
    * creates a "buffer" when user is typing a keyword to prevent multiple calls
    * @param {*} keyword
    */
   const setKeywordDebounced = (keyword) => {
-    clearTimeout(timeoutToken);
-    var token = setTimeout(() => setKeyword(keyword), 400);
-    setTimeoutToken(token);
+    clearTimeout(timeoutToken.current); // clear the existing timeout so that the previous setKeyword call won't not go through (if less than 400 ms has passed)
+    timeoutToken.current = setTimeout(() => setKeyword(keyword), 400);
   };
 
-  const total = useMetStore((state) => state.total);
-  const titleAnimateProps = useSpring({
+  const squeezeExpandProps = useSpring({
+    marginTop: scrolled ? "-2em" : "0.67em",
+  });
+
+  const rollOpenProps = useSpring({
     from: { width: "0vw" },
     width: "100vw",
-    // config: { duration: 800 },
-    marginTop: scrolled ? "-2em" : "0.67em",
+    config: { duration: 1000 },
   });
 
   useEffect(() => {
@@ -50,15 +53,16 @@ const Header = () => {
 
   return (
     <animated.div className="header">
-      <animated.h1 style={titleAnimateProps}>
-        🏛 Metropolitan Museum of Art
-      </animated.h1>
+      <animated.div style={rollOpenProps}>
+        <animated.h1 style={squeezeExpandProps}>
+          🏛 Metropolitan Museum of Art
+        </animated.h1>
+      </animated.div>
       <input
         type="search"
         placeholder="Enter keyword here..."
         onChange={(e) => setKeywordDebounced(e.target.value)}
         aria-label="search term"
-        // value={keyword}
       />
       <ResultsCaption total={total} keyword={keyword} />
     </animated.div>

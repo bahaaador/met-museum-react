@@ -12,7 +12,7 @@ export const useMetStore = create((set, get) => ({
   ...INITIAL_STATE,
   detailsModalOpen: false,
   detailsModalData: {},
-  abortController: new AbortController(),
+  abortController: null,
 
   setKeyword: (keyword) =>
     set(() => ({
@@ -24,7 +24,12 @@ export const useMetStore = create((set, get) => ({
     set(() => ({ detailsModalOpen: true, detailsModalData: data })), // open modal as soon as data is set
 
   fetchResult: async () => {
-    get().abortController.abort(); // cancel the previous request
+    if (get().abortController) {
+      get().abortController.abort(); // Cancel the previous request
+    }
+
+    set({ abortController: new AbortController() });
+
     set({ isLoading: true });
 
     try {

@@ -14,7 +14,7 @@ h1 {
   font-size: 3em;
   overflow: hidden;
   white-space: nowrap;
-  margin-left: 2vw;
+  margin-left: 0.5em;
 }
 
 @media (max-width: 700px) {
