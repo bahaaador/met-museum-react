@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
 import { useMetStore } from "Store";
+import { fetchItemDetails } from "api/metMusuem";
 
 import "./ItemCard.css";
-import { fetchItemDetails } from "api/metMusuem";
 
 const ItemCard = ({ id }) => {
   const [ref, inView] = useInView({
@@ -20,8 +20,21 @@ const ItemCard = ({ id }) => {
     setImageLoaded(true);
   };
 
+  const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
+
+  const fadeInPropsImage = useSpring({
+    opacity: imageLoaded ? 1 : 0,
+  });
+
+  const [{ transform, color, opacity }, setAnimatedProps] = useSpring(() => ({
+    transform: "scale(1)",
+    color: "#000",
+    opacity: "0.7",
+    marginTop: 0,
+  }));
+
   useEffect(() => {
-    const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we only run relavant queries
+    const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we don't wait for expired requests to go through
 
     const fetchData = async () => {
       console.info("fetching details for object id:" + id);
@@ -39,25 +52,12 @@ const ItemCard = ({ id }) => {
       }
     };
 
-    if (inView) fetchData();
+    if (inView) fetchData(); // fetch data as soon as the item is -close to be- visibile
 
     return function cleanup() {
       abortController.abort();
     };
   }, [id, inView]);
-
-  const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
-
-  const fadeInPropsImage = useSpring({
-    opacity: imageLoaded ? 1 : 0,
-  });
-
-  const [{ transform, color, opacity }, setAnimatedProps] = useSpring(() => ({
-    transform: "scale(1)",
-    color: "#000",
-    opacity: "0.7",
-    marginTop: 0,
-  }));
 
   const renderCardContent = () => {
     if (!inView) return null;

@@ -42,7 +42,7 @@ In addition, the application respects user's reduce motion preferences by disabl
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm run start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -50,12 +50,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `yarn test`
+### `npm run test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -63,23 +63,23 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
-### `npm run predeploy`:
+### `npm run predeploy`
 
 This script runs the `npm run build` command to create an optimized build of the application in a folder named `build`. This is typically done before deploying the application.
 
-### `npm run deploy`:
+### `npm run deploy`
 
 This script deploys the application to GitHub Pages. It uses the `gh-pages` package to deploy the contents of the `build` folder (created by the `predeploy` script) to the `gh-pages` branch of the repository.
 
-### `npm run lint`:
+### `npm run lint`
 
 This script runs ESLint on the `src` directory. ESLint is a tool for identifying and reporting on patterns in JavaScript, helping to maintain code quality and adhere to coding conventions.
 
-### `npm run format`:
+### `npm run format`
 
 This script uses Prettier to automatically format the JavaScript files in the `src` directory. Prettier is an opinionated code formatter that enforces a consistent code style across the project.
 
-### `npm run precommit`:
+### `npm run precommit`
 
 This script is typically run before committing changes to your repository. It first runs the `lint` script to check the code for any linting errors and then runs the `format` script to ensure the code is formatted properly. If either the `lint` or `format` scripts encounter errors, the `precommit` script will fail, and you won't be able to commit the changes until the errors are fixed.
 

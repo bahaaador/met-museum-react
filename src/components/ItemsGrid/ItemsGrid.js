@@ -1,5 +1,6 @@
 import React from "react";
 import { useInView } from "react-intersection-observer";
+
 import "./ItemsGrid.css";
 
 import ItemCard from "components/ItemCard";
