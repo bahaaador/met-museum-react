@@ -63,6 +63,7 @@ const Header = () => {
         placeholder="Enter keyword here..."
         onChange={(e) => setKeywordDebounced(e.target.value)}
         aria-label="search term"
+        data-testid="searchInput"
       />
       <ResultsCaption total={total} keyword={keyword} />
     </animated.div>

@@ -1,4 +1,4 @@
-// for more flexibility and better brwoser support, replace fetch API with a library such as Axios
+// for more flexibility and better browser support, replace fetch API with a library such as Axios
 
 const BASE_URL = "https://collectionapi.metmuseum.org/public/collection/v1";
 

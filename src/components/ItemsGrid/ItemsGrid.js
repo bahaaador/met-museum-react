@@ -1,8 +1,8 @@
-import React, { lazy } from "react";
+import React from "react";
 import { useInView } from "react-intersection-observer";
 import "./ItemsGrid.css";
 
-const ItemCard = lazy(() => import("components/ItemCard/ItemCard"));
+import ItemCard from "components/ItemCard";
 const ItemCardMemoized = React.memo(ItemCard);
 
 const ItemsGrid = ({ data }) => {
