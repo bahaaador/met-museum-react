@@ -17,6 +17,7 @@ const Header = () => {
     else if (window.pageYOffset > 150) setScrolled(true);
   };
 
+  const inputRef = useRef();
   const timeoutToken = useRef(null);
   const [scrolled, setScrolled] = useState(false);
 
@@ -40,6 +41,7 @@ const Header = () => {
   });
 
   useEffect(() => {
+    inputRef.current.focus();
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
@@ -64,6 +66,7 @@ const Header = () => {
         onChange={(e) => setKeywordDebounced(e.target.value)}
         aria-label="search term"
         data-testid="searchInput"
+        ref={inputRef}
       />
       <ResultsCaption total={total} keyword={keyword} />
     </animated.div>
