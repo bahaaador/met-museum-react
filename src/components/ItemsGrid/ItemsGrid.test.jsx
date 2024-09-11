@@ -2,6 +2,8 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { useInView } from "react-intersection-observer";
 import ItemsGrid from "./ItemsGrid";
+import { vi ,describe, beforeEach, it, expect} from 'vitest';
+
 
 vi.mock("react-intersection-observer", () => ({
   useInView: vi.fn(),

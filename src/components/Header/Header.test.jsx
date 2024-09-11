@@ -1,4 +1,5 @@
-import { describe, it, expect, vi, beforeEach, spyOn } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import React from 'react';
 import { render, fireEvent, screen } from "@testing-library/react";
 import { fetchMetCollection } from "@api/metMusuem";
 import Header from "./Header";

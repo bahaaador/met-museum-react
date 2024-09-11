@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSpring, animated } from "react-spring";
+import { useSpring, animated } from "@react-spring/web";
 
-import { useMetStore } from "../../Store";
+import { useMetStore } from "@store";
 
 import "./Header.css";
 
@@ -45,13 +45,11 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (keyword) fetchResult();
-  }, [fetchResult, keyword]);
+  }, []);
 
   return (
     <animated.div className="header">

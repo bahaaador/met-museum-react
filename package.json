@@ -4,7 +4,6 @@
   "private": false,
   "type": "module",
   "homepage": "http://bahaaador.github.io/met-museum-react",
- 
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,29 +11,30 @@
     "test": "vitest",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "lint": "eslint src",
+    "lint": "eslint src --fix",
     "format": "prettier --write \"src/**/*.js\"",
     "precommit": "npm run lint && npm run format"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "dependencies": {
-    "@testing-library/react": "^14.0.0",
+    "@react-spring/web": "^9.7.4",
     "@testing-library/jest-dom": "^6.5.0",
     "@types/node": "^22.5.4",
     "@vitejs/plugin-react": "^4.3.1",
-    "prettier": "^2.8.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-intersection-observer": "^9.4.3",
-    "react-spring": "^9.7.1",
-    "zustand": "^4.3.8"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-intersection-observer": "^9.13.1",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0",
+    "@eslint/js": "^9.10.0",
+    "@testing-library/react": "^16.0.1",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react": "^7.36.1",
+    "gh-pages": "^6.1.1",
+    "globals": "^15.9.0",
+    "jsdom": "^25.0.0",
+    "prettier": "^3.3.3",
     "vite": "^5.4.4",
-    "vitest": "^0.34.6",
-    "jsdom": "^22.1.0"
+    "vitest": "^2.1.0"
   }
 }

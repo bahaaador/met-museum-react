@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import { useSpring, animated, Globals, useReducedMotion } from "react-spring";
+import { useSpring, animated, Globals, useReducedMotion } from "@react-spring/web";
 
 import { useMetStore } from "@store";
 import Header from "@components/Header";
@@ -21,9 +21,6 @@ function App() {
     Globals.assign({
       skipAnimation: prefersReducedMotion, // disable all spring animations if user prefers reduced motions
     });
-
-    // on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
@@ -42,7 +39,7 @@ function App() {
                 // break the results into chuncks of 200 items so that we can optimize performance by assigning
                 // intersection observer to lload items in each chunk based on current scroll position at any given time
                 objectIDs &&
-                  chunkArray(objectIDs, 200).map((ids) => (
+                  chunkArray(objectIDs, 1500).map((ids) => (
                     <ItemsGrid key={ids[0]} data={ids} />
                   ))
               }

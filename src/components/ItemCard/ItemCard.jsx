@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSpring, animated } from "react-spring";
+import React, { useEffect, useState, useCallback } from "react";
+import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 import { useMetStore } from "@store";
 import { fetchItemDetails } from "@api/metMusuem";
@@ -33,26 +33,29 @@ const ItemCard = ({ id }) => {
     marginTop: 0,
   }));
 
+  const fetchData = useCallback(async () => {
+    console.info("fetching details for object id:" + id);
+
+    try {
+      const data = await fetchItemDetails(id);
+      setItem(data);
+    } catch (err) {
+      if (err.name === "AbortError") {
+        console.log("Fetch details aborted 👀");
+        console.dir(err);
+      } else {
+        console.error(`Error fetching item id:${id}`, err);
+      }
+      }
+    },
+    [id]
+  );
+
   useEffect(() => {
     const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we don't wait for expired requests to go through
 
-    const fetchData = async () => {
-      console.info("fetching details for object id:" + id);
-
-      try {
-        const data = await fetchItemDetails(id, abortController.signal);
-        setItem(data);
-      } catch (err) {
-        if (err.name === "AbortError") {
-          console.log("Fetch details aborted 👀");
-          console.dir(err);
-        } else {
-          console.error(`Error fetching item id:${id}`, err);
-        }
-      }
-    };
-
-    if (inView) fetchData(); // fetch data as soon as the item is -close to be- visibile
+  console.log("inView", inView, {id});
+    if (inView) fetchData(abortController); // fetch data as soon as the item is -close to be- visibile
 
     return function cleanup() {
       abortController.abort();
