@@ -3,12 +3,14 @@ import { render } from "@testing-library/react";
 import { useInView } from "react-intersection-observer";
 import ItemsGrid from "./ItemsGrid";
 
-jest.mock("react-intersection-observer", () => ({
-  useInView: jest.fn(),
+vi.mock("react-intersection-observer", () => ({
+  useInView: vi.fn(),
 }));
 const ref = React.createRef();
 
-jest.mock("components/ItemCard", () => () => <div>ItemCard</div>);
+vi.mock("@components/ItemCard", () => ({
+  default: vi.fn(() => <div data-testid="mocked-item-card">ItemCard</div>),
+}));
 
 describe("ItemsGrid", () => {
   beforeEach(() => {
@@ -17,9 +19,9 @@ describe("ItemsGrid", () => {
 
   it("renders the correct number of items if in view", () => {
     useInView.mockReturnValue([ref, true]);
-    const { queryAllByText } = render(<ItemsGrid data={[1, 2, 3]} />);
+    const { getAllByText } = render(<ItemsGrid data={[1, 2, 3]} />);
 
-    expect(queryAllByText(/ItemCard/).length).toBe(3);
+    expect(getAllByText(/ItemCard/).length).toBe(3);
   });
 
   it("does not render items if NOT in view", () => {

@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 
 import "./ItemsGrid.css";
 
-import ItemCard from "components/ItemCard";
+import ItemCard from "../ItemCard";
 const ItemCardMemoized = React.memo(ItemCard);
 
 const ItemsGrid = ({ data }) => {

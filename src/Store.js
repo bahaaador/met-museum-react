@@ -1,4 +1,4 @@
-import { fetchMetCollection } from "api/metMusuem";
+import { fetchMetCollection } from "@api/metMusuem";
 import { create } from "zustand";
 
 const INITIAL_STATE = {

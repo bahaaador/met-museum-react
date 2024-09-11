@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 
-import { useMetStore } from "Store";
+import { useMetStore } from "../../Store";
 
 import "./Header.css";
 

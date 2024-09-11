@@ -1,3 +1,4 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { chunkArray } from "./chunkArray";
 
 describe("chunkArray", () => {

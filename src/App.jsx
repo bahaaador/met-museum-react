@@ -1,14 +1,14 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { useSpring, animated, Globals, useReducedMotion } from "react-spring";
 
-import { useMetStore } from "./Store";
-import Header from "components/Header";
+import { useMetStore } from "@store";
+import Header from "@components/Header";
 
 import "./App.css";
-import { chunkArray } from "utils";
+import { chunkArray } from "@utils";
 
-const ItemsGrid = lazy(() => import("components/ItemsGrid"));
-const DetailsModal = lazy(() => import("components/DetailsModal"));
+const ItemsGrid = lazy(() => import("@components/ItemsGrid"));
+const DetailsModal = lazy(() => import("@components/DetailsModal"));
 
 function App() {
   const objectIDs = useMetStore((state) => state.objectIDs);

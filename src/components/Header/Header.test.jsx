@@ -1,12 +1,14 @@
+import { describe, it, expect, vi, beforeEach, spyOn } from 'vitest';
 import { render, fireEvent, screen } from "@testing-library/react";
-import { fetchMetCollection } from "api/metMusuem";
+import { fetchMetCollection } from "@api/metMusuem";
 import Header from "./Header";
 
-jest.mock("api/metMusuem", () => ({
-  fetchMetCollection: jest.fn(),
+vi.mock("@api/metMusuem", () => ({
+  fetchMetCollection: vi.fn(),
 }));
 
-jest.spyOn(window, "addEventListener").mockImplementation();
+// spyOn(window, "addEventListener").mockImplementation();
+
 
 describe("Header component", () => {
   beforeEach(() => {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
 import { useInView } from "react-intersection-observer";
-import { useMetStore } from "Store";
-import { fetchItemDetails } from "api/metMusuem";
+import { useMetStore } from "@store";
+import { fetchItemDetails } from "@api/metMusuem";
 
 import "./ItemCard.css";
 

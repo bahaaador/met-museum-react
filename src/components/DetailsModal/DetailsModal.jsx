@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "react-spring";
-import { useMetStore } from "Store";
+import { useMetStore } from "@store";
 
 import "./DetailsModal.css";
 

@@ -2,26 +2,16 @@
   "name": "met-museum-react",
   "version": "0.1.0",
   "private": false,
+  "type": "module",
   "homepage": "http://bahaaador.github.io/met-museum-react",
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
-    "prettier": "^2.8.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-intersection-observer": "^9.4.3",
-    "react-scripts": "5.0.1",
-    "react-spring": "^9.7.1",
-    "zustand": "^4.3.8"
-  },
+ 
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint src",
     "format": "prettier --write \"src/**/*.js\"",
     "precommit": "npm run lint && npm run format"
@@ -29,19 +19,22 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@types/node": "^22.5.4",
+    "@vitejs/plugin-react": "^4.3.1",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.4.3",
+    "react-spring": "^9.7.1",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "vite": "^5.4.4",
+    "vitest": "^0.34.6",
+    "jsdom": "^22.1.0"
   }
 }
