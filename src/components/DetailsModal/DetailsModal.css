@@ -10,10 +10,10 @@
 }
 
 .modal-content {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
-  border-radius: 10px;
+  border-radius: 5px;
   transform: translate(-50%, -50%);
   background: white;
   padding: 20px;
@@ -21,7 +21,7 @@
   -moz-box-shadow: 10px 10px 54px -20px rgba(0, 0, 0, 0.75);
   box-shadow: 10px 10px 54px 0px rgba(0, 0, 0, 0.75);
   border: 0.6px #bdbdbd solid;
-  font-family: "Arial";
+  font-family: "Montserrat";
   background-color: #f9f4eefa;
 }
 
@@ -36,6 +36,7 @@
   max-height: 70vh;
   max-width: 80vw;
   margin-bottom: 10px;
+  border: 1px #6f6965 solid;
 }
 
 .modal-content label {

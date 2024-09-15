@@ -10,8 +10,8 @@ vi.mock("react-intersection-observer", () => ({
 }));
 const ref = React.createRef();
 
-vi.mock("@components/ItemCard", () => ({
-  default: vi.fn(() => <div data-testid="mocked-item-card">ItemCard</div>),
+vi.mock("@components/ArtifactComponent", () => ({
+  default: vi.fn(() => <div data-testid="mocked-item-card">ArtifactComponent</div>),
 }));
 
 describe("ItemsGrid", () => {
@@ -23,13 +23,13 @@ describe("ItemsGrid", () => {
     useInView.mockReturnValue([ref, true]);
     const { getAllByText } = render(<ItemsGrid data={[1, 2, 3]} />);
 
-    expect(getAllByText(/ItemCard/).length).toBe(3);
+    expect(getAllByText(/ArtifactComponent/).length).toBe(3);
   });
 
   it("does not render items if NOT in view", () => {
     useInView.mockReturnValue([ref, false]);
     const { queryAllByText } = render(<ItemsGrid data={[1, 2, 3]} />);
 
-    expect(queryAllByText(/ItemCard/).length).toBe(0);
+    expect(queryAllByText(/ArtifactComponent/).length).toBe(0);
   });
 });

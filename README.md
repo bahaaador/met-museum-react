@@ -6,7 +6,7 @@ This project creates a simplified user experience for exploring the Metropolitan
 
 ![Screen cast of using the app to search for the keyword scarab](./ReadmeAssets/metScreenCast.gif)
 
-Try the live app: [Met Museum React Experience](https://bahaaador.github.io/met-museum-react/)
+Try the live app: [Met Museum React Experience](https://met.bahador.dev/)
 
 ## Key Features
 
@@ -17,6 +17,8 @@ Try the live app: [Met Museum React Experience](https://bahaaador.github.io/met-
 - Performance optimizations with Intersection Observer API and React Suspense
 - Efficient state management using Zustand
 - Accessibility considerations for screen readers and reduced motion preferences
+- Efficient caching mechanism for API responses
+- Optimized data chunking for smoother infinite scrolling
 
 ## Performance Highlights
 
@@ -28,6 +30,8 @@ Key optimizations include:
 - Intersection Observer API for efficient rendering and image loading
 - React Suspense for component loading and code splitting
 - AbortSignal API to cancel ongoing requests during user interactions
+- Implemented caching mechanism to reduce API calls and improve response times
+- Optimized data chunking strategy for more efficient rendering of large datasets
 
 ## Accessibility
 

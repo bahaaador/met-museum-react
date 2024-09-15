@@ -1,7 +1,12 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import { useSpring, animated, Globals, useReducedMotion } from "@react-spring/web";
+import {
+  useSpring,
+  animated,
+  Globals,
+  useReducedMotion,
+} from "@react-spring/web";
 
-import { useMetStore } from "@store";
+import { useArtStore, getArtState } from "@store/artStore";
 import Header from "@components/Header";
 
 import "./App.css";
@@ -10,42 +15,65 @@ import { chunkArray } from "@utils";
 const ItemsGrid = lazy(() => import("@components/ItemsGrid"));
 const DetailsModal = lazy(() => import("@components/DetailsModal"));
 
+const data_chunk_size = 200;
+
 function App() {
-  const objectIDs = useMetStore((state) => state.objectIDs);
-  const isLoading = useMetStore((state) => state.isLoading);
-  const detailsModalOpen = useMetStore((state) => state.detailsModalOpen);
+  const {
+    objectIDs,
+    isLoading,
+    detailsModalOpen,
+    error,
+    reset,
+  } = useArtStore();
 
   const prefersReducedMotion = useReducedMotion();
+
+  const handleKeyDown = (e) => {
+    if (e.key === "?") {
+      const s = getArtState();
+      console.log("?");
+      console.log({ s });
+    }
+  };
+
+  useEffect(() => {
+    console.log("reset");
+    reset();
+  }, []);
 
   useEffect(() => {
     Globals.assign({
       skipAnimation: prefersReducedMotion, // disable all spring animations if user prefers reduced motions
     });
-  }, []);
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [prefersReducedMotion]);
 
   const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
 
   return (
     <animated.div style={fadeInProps} className="app">
       <Header />
+      {error && (
+        <div className="error-message" role="alert">
+          {error}
+        </div>
+      )}
       <Suspense fallback={<LoadingIndicator />}>
-        {
-          // display loading indicator when loading components, also when fetching data from api
-          isLoading ? (
-            <LoadingIndicator />
-          ) : (
-            <>
-              {
-                // break the results into chuncks of 200 items so that we can optimize performance by assigning
-                // intersection observer to lload items in each chunk based on current scroll position at any given time
-                objectIDs &&
-                  chunkArray(objectIDs, 1500).map((ids) => (
-                    <ItemsGrid key={ids[0]} data={ids} />
-                  ))
-              }
-            </>
-          )
-        }
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <>
+            {objectIDs &&
+              chunkArray(objectIDs, data_chunk_size).map((ids) => (
+                <ItemsGrid key={ids[0]} data={ids} />
+              ))}
+          </>
+        )}
       </Suspense>
       <Suspense>{detailsModalOpen && <DetailsModal />}</Suspense>
     </animated.div>

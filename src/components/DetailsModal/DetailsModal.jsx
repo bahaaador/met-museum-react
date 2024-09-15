@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
-import { useMetStore } from "@store";
+import { useArtStore } from "@store/artStore";
 
 import "./DetailsModal.css";
 
 const DetailsModal = () => {
-  const setDetailsModalOpen = useMetStore((state) => state.setDetailsModalOpen);
-  const data = useMetStore((state) => state.detailsModalData);
-
+  const { detailsModalData, setDetailsModalOpen } = useArtStore();
   const [isOpen, setIsOpen] = useState(true); // local state is used for animations only
 
   const slideInProps = useSpring({
@@ -37,7 +35,7 @@ const DetailsModal = () => {
   }, []);
 
   return (
-    data && (
+    detailsModalData && (
       <animated.div
         className="modal-overlay"
         onClick={onClose}
@@ -45,44 +43,44 @@ const DetailsModal = () => {
       >
         <animated.div className="modal-content" style={slideInProps}>
           <div className="image-wrapper">
-            <img alt={data.objectName} src={data.primaryImageSmall} />
+            <img alt={detailsModalData.objectName} src={detailsModalData.primaryImageSmall} />
           </div>
           <div className="item-row">
             <label>Title:</label>
-            <div>{data.title}</div>
+            <div>{detailsModalData.title}</div>
           </div>
           {
             // added a null check for the ones I noticed are sometimes returned as null from the server, for a better user experience :)
-            data.artistDisplayName && (
+            detailsModalData.artistDisplayName && (
               <div className="item-row">
                 <label>Artist:</label>
-                <div>{data.artistDisplayName}</div>
+                <div>{detailsModalData.artistDisplayName}</div>
               </div>
             )
           }
-          {data.classification && (
+          {detailsModalData.classification && (
             <div className="item-row">
               <label>Classification:</label>
-              <div>{data.classification}</div>
+              <div>{detailsModalData.classification}</div>
             </div>
           )}
           <div className="item-row">
             <label>Dimensions:</label>
-            <div>{data.dimensions}</div>
+            <div>{detailsModalData.dimensions}</div>
           </div>
           <div className="item-row">
             <label>Date:</label>
-            <div>{data.objectDate}</div>
+            <div>{detailsModalData.objectDate}</div>
           </div>
-          {data.period && (
+          {detailsModalData.period && (
             <div className="item-row">
               <label>Period:</label>
-              <div>{data.period}</div>
+              <div>{detailsModalData.period}</div>
             </div>
           )}
           <div className="item-row">
             <label>Credit line:</label>
-            <div>{data.creditLine}</div>
+            <div>{detailsModalData.creditLine}</div>
           </div>
         </animated.div>
       </animated.div>

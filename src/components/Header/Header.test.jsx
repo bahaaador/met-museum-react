@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
 import { render, fireEvent, screen } from "@testing-library/react";
-import { fetchMetCollection } from "@api/metMusuem";
+import { fetchSearchResult } from "@api/museumApi";
 import Header from "./Header";
 
-vi.mock("@api/metMusuem", () => ({
-  fetchMetCollection: vi.fn(),
+vi.mock("@api/museumApi", () => ({
+  fetchSearchResult: vi.fn(),
 }));
 
 // spyOn(window, "addEventListener").mockImplementation();
@@ -13,7 +13,7 @@ vi.mock("@api/metMusuem", () => ({
 
 describe("Header component", () => {
   beforeEach(() => {
-    fetchMetCollection.mockClear();
+    fetchSearchResult.mockClear();
   });
 
   it("updates the keyword and fetches result when the input is updated", async () => {
@@ -22,7 +22,7 @@ describe("Header component", () => {
       objectIDs: [1, 2, 3, 4, 5],
     };
 
-    fetchMetCollection.mockResolvedValue(dummyData);
+    fetchSearchResult.mockResolvedValue(dummyData);
 
     render(<Header />);
 
@@ -35,6 +35,6 @@ describe("Header component", () => {
 
     expect(caption).toBeInTheDocument();
 
-    expect(fetchMetCollection).toHaveBeenCalled();
+    expect(fetchSearchResult).toHaveBeenCalled();
   });
 });

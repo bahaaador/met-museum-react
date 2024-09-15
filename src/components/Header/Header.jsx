@@ -1,33 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSpring, animated } from "@react-spring/web";
 
-import { useMetStore } from "@store";
+import { useArtStore } from "@store/artStore";
 
 import "./Header.css";
 
 const Header = () => {
-  const keyword = useMetStore((state) => state.keyword);
-  const total = useMetStore((state) => state.total);
-
-  const setKeyword = useMetStore((state) => state.setKeyword);
-  const fetchResult = useMetStore((state) => state.fetchResult);
+  const { keyword, total, setKeyword } = useArtStore();
 
   const handleScroll = () => {
-    if (window.pageYOffset < 10) setScrolled(false);
-    else if (window.pageYOffset > 150) setScrolled(true);
+    if (window.scrollY < 10) setScrolled(false);
+    else if (window.scrollY > 150) setScrolled(true);
   };
 
   const inputRef = useRef();
   const timeoutToken = useRef(null);
-  const [scrolled, setScrolled] = useState(false);
 
+  const [scrolled, setScrolled] = useState(false);
+  // const { searchArtworks } = useArtSearch();
   /**
    * creates a "buffer" when user is typing a keyword to prevent multiple calls
    * @param {*} keyword
    */
   const setKeywordDebounced = (keyword) => {
     clearTimeout(timeoutToken.current); // clear the existing timeout so that the previous setKeyword call won't not go through (if less than 400 ms has passed)
-    timeoutToken.current = setTimeout(() => setKeyword(keyword), 400);
+    timeoutToken.current = setTimeout(() => setKeyword(keyword), 50);
   };
 
   const squeezeExpandProps = useSpring({
@@ -47,9 +44,11 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (keyword) fetchResult();
-  }, []);
+  // useEffect(() => {
+  //   if (keyword) {
+  //     searchArtworks(keyword);
+  //   }
+  // }, [keyword]);
 
   return (
     <animated.div className="header">

@@ -35,7 +35,7 @@ input {
   border-radius: 5px;
   margin: 0px 20px;
   outline: none;
-  font-family: "Arial";
+  font-family: "Montserrat";
   border-color: burlywood;
   margin-bottom: 0.3em;
 }
@@ -43,7 +43,7 @@ input {
 .search-caption {
   opacity: 0.8;
   font-size: small;
-  font-family: "Arial";
+  font-family: "Montserrat";
   margin-bottom: 0.5em;
   text-align: right;
   margin-right: 2em;

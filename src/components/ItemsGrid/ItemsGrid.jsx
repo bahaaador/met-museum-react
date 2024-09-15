@@ -3,8 +3,8 @@ import { useInView } from "react-intersection-observer";
 
 import "./ItemsGrid.css";
 
-import ItemCard from "../ItemCard";
-const ItemCardMemoized = React.memo(ItemCard);
+import ArtifactComponent from "../ArtifactComponent";
+const ArtifactComponentMemoized = React.memo(ArtifactComponent);
 
 const ItemsGrid = ({ data }) => {
   const [ref, inView] = useInView({
@@ -17,7 +17,7 @@ const ItemsGrid = ({ data }) => {
       style={{ minHeight: !inView ? "30000px" : null }}
       className={"search-result-grid"}
     >
-      {inView && data.map((id) => <ItemCardMemoized id={id} key={id} />)}
+      {inView && data.map((id) => <ArtifactComponentMemoized id={id} key={id} />)}
     </div>
   );
 };
