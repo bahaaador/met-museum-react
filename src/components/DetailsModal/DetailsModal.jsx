@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useArtStore } from "@store/artStore";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import "./DetailsModal.css";
 
 const DetailsModal = () => {
   const { detailsModalData, setDetailsModalOpen } = useArtStore();
   const [isOpen, setIsOpen] = useState(true); // local state is used for animations only
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const slideInProps = useSpring({
     top: isOpen ? "50%" : "150%",
@@ -25,6 +27,29 @@ const DetailsModal = () => {
     setTimeout(() => setDetailsModalOpen(false), 250);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      console.log("escape")
+      onClose();
+    }
+
+    if (e.key === "ArrowRight" && hasAdditionalImages) {
+      nextImage();
+    }
+
+    if (e.key === "ArrowLeft" && hasAdditionalImages) {
+      prevImage();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); //cleanup
+    };
+  }, []);
+
   useEffect(() => {
     document.body.style.overflowY = "hidden"; // disable main screen's scroll
 
@@ -34,6 +59,23 @@ const DetailsModal = () => {
     };
   }, []);
 
+
+  const hasAdditionalImages = detailsModalData?.additionalImages?.length > 0;
+  const totalImages = hasAdditionalImages ? detailsModalData.additionalImages.length + 1 : 1;
+
+
+  const changeImage = (direction) => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + direction + totalImages) % totalImages);
+  };
+
+  const nextImage = () => changeImage(1);
+  const prevImage = () => changeImage(-1);
+
+  const getCurrentImage = () => {
+    if (currentImageIndex === 0) return detailsModalData.primaryImageSmall;
+    return detailsModalData.additionalImages[currentImageIndex - 1];
+  };
+
   return (
     detailsModalData && (
       <animated.div
@@ -42,8 +84,18 @@ const DetailsModal = () => {
         style={fadeInProps}
       >
         <animated.div className="modal-content" style={slideInProps}>
-          <div className="image-wrapper">
-            <img alt={detailsModalData.objectName} src={detailsModalData.primaryImageSmall} />
+          <div className="image-wrapper" onClick={(e) => e.stopPropagation()}>
+            <img alt={detailsModalData.objectName} src={getCurrentImage()} />
+            {hasAdditionalImages && (
+              <>
+                <button className="nav-button left" onClick={prevImage}>
+                  <FaChevronLeft />
+                </button>
+                <button className="nav-button right" onClick={nextImage}>
+                  <FaChevronRight />
+                </button>
+              </>
+            )}
           </div>
           <div className="item-row">
             <label>Title:</label>

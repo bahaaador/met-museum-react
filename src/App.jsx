@@ -28,17 +28,9 @@ function App() {
 
   const prefersReducedMotion = useReducedMotion();
 
-  const handleKeyDown = (e) => {
-    if (e.key === "?") {
-      const s = getArtState();
-      console.log("?");
-      console.log({ s });
-    }
-  };
-
   useEffect(() => {
     console.log("reset");
-    reset();
+    reset(); // reset state on mount
   }, []);
 
   useEffect(() => {
@@ -46,11 +38,6 @@ function App() {
       skipAnimation: prefersReducedMotion, // disable all spring animations if user prefers reduced motions
     });
 
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
   }, [prefersReducedMotion]);
 
   const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
