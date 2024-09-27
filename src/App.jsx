@@ -29,7 +29,6 @@ function App() {
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    console.log("reset");
     reset(); // reset state on mount
   }, []);
 

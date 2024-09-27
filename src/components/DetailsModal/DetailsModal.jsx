@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useArtStore } from "@store/artStore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -21,34 +21,11 @@ const DetailsModal = () => {
     from: { opacity: 0 },
   });
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     // first set the local state to false for the aimation to go through and then close the modal after 250 ms
     setIsOpen(false);
     setTimeout(() => setDetailsModalOpen(false), 250);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Escape") {
-      console.log("escape")
-      onClose();
-    }
-
-    if (e.key === "ArrowRight" && hasAdditionalImages) {
-      nextImage();
-    }
-
-    if (e.key === "ArrowLeft" && hasAdditionalImages) {
-      prevImage();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown); //cleanup
-    };
-  }, []);
+  }, [setDetailsModalOpen]);
 
   useEffect(() => {
     document.body.style.overflowY = "hidden"; // disable main screen's scroll
@@ -59,22 +36,54 @@ const DetailsModal = () => {
     };
   }, []);
 
+  // Images
+  const transformImageUrl = (url) => {
+    return url.replace("/original/", "/web-large/");
+  };
 
   const hasAdditionalImages = detailsModalData?.additionalImages?.length > 0;
-  const totalImages = hasAdditionalImages ? detailsModalData.additionalImages.length + 1 : 1;
+  const totalImages = hasAdditionalImages
+    ? detailsModalData.additionalImages.length + 1
+    : 1;
 
+  const nextImage = useCallback(() => {
+    if (currentImageIndex < totalImages - 1)
+      setCurrentImageIndex((prevIndex) => prevIndex + 1);
+  }, [currentImageIndex, setCurrentImageIndex]);
 
-  const changeImage = (direction) => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + direction + totalImages) % totalImages);
+  const prevImage = () => {
+    if (currentImageIndex > 0)
+      setCurrentImageIndex((prevIndex) => prevIndex - 1);
   };
 
-  const nextImage = () => changeImage(1);
-  const prevImage = () => changeImage(-1);
+  const getAllImages = () => {
+    const additionalImages =
+      detailsModalData.additionalImages?.map(transformImageUrl) || [];
 
-  const getCurrentImage = () => {
-    if (currentImageIndex === 0) return detailsModalData.primaryImageSmall;
-    return detailsModalData.additionalImages[currentImageIndex - 1];
+    return [detailsModalData.primaryImageSmall, ...additionalImages];
   };
+
+  // event handlers
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      } else if (e.key === "ArrowRight" && hasAdditionalImages) {
+        nextImage();
+      } else if (e.key === "ArrowLeft" && hasAdditionalImages) {
+        prevImage();
+      }
+    },
+    [currentImageIndex, onClose]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); //cleanup
+    };
+  }, [handleKeyDown]);
 
   return (
     detailsModalData && (
@@ -83,17 +92,36 @@ const DetailsModal = () => {
         onClick={onClose}
         style={fadeInProps}
       >
-        <animated.div className="modal-content" style={slideInProps}>
-          <div className="image-wrapper" onClick={(e) => e.stopPropagation()}>
-            <img alt={detailsModalData.objectName} src={getCurrentImage()} />
+        <animated.div
+          className="modal-content"
+          style={slideInProps}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="carousel-wrapper">
+            <div
+              className="carousel"
+              style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+            >
+              {getAllImages().map((src, index) => (
+                <img
+                  key={index}
+                  alt={`${detailsModalData.objectName} - Image ${index + 1}`}
+                  src={src}
+                />
+              ))}
+            </div>
             {hasAdditionalImages && (
               <>
-                <button className="nav-button left" onClick={prevImage}>
-                  <FaChevronLeft />
-                </button>
-                <button className="nav-button right" onClick={nextImage}>
-                  <FaChevronRight />
-                </button>
+                {currentImageIndex > 0 && (
+                  <button className="nav-button left" onClick={prevImage}>
+                    <FaChevronLeft />
+                  </button>
+                )}
+                {currentImageIndex < totalImages - 1 && (
+                  <button className="nav-button right" onClick={nextImage}>
+                    <FaChevronRight />
+                  </button>
+                )}
               </>
             )}
           </div>

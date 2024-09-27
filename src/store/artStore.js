@@ -9,13 +9,13 @@ const INITIAL_STATE = {
   total: 0,
   objectIDs: [],
   cardData: [],
+  detailsModalOpen: false,
 };
 
 const CACHE_EXPIRATION_TIME = 1000 * 60 * 60 * 24; // 1 day
 
 export const useArtStore = create((set, get) => ({
   ...INITIAL_STATE,
-  detailsModalOpen: false,
   detailsModalData: {},
   abortController: new AbortController(),
   error: null,
