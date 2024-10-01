@@ -62,7 +62,9 @@ const DetailsModal = () => {
     const additionalImages =
       detailsModalData.additionalImages?.map(transformImageUrl) || [];
 
-    return [detailsModalData.primaryImageSmall, ...additionalImages];
+    return [detailsModalData.primaryImageSmall, ...additionalImages].filter(
+      (image) => image 
+    );
   };
 
   // event handlers
@@ -146,10 +148,10 @@ const DetailsModal = () => {
               <div>{detailsModalData.classification}</div>
             </div>
           )}
-          <div className="item-row">
+          {/* <div className="item-row">
             <label>Dimensions:</label>
             <div>{detailsModalData.dimensions}</div>
-          </div>
+          </div> */}
           <div className="item-row">
             <label>Date:</label>
             <div>{detailsModalData.objectDate}</div>

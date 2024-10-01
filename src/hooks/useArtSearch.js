@@ -17,6 +17,7 @@ export const useArtSearch = () => {
       setObjectIDs(result.objectIDs || []);
       setTotal(result.total || 0);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Error searching artworks:', err);
     }
   }, [execute, setKeyword, setObjectIDs, setTotal]);

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { create } from "zustand";
 import { fetchArtifactDetails, fetchSearchResult } from "@api/museumApi";
 
@@ -94,7 +95,6 @@ export const useArtStore = create((set, get) => ({
       return cachedData.data;
     } else {
       try {
-        console.log("fetching new data", { id });
         const newData = await fetchArtifactDetails(id, signal);
 
         // Store the new data in cache
@@ -104,6 +104,9 @@ export const useArtStore = create((set, get) => ({
         if (error.name === "AbortError") {
           console.log("Fetch details aborted 👀", { id });
           return null;
+        } else if (error.message === "HTTP error! status: 404") {
+          console.log("Artifact not found in the Met Museum API", { id });
+          return null;
         }
         console.error("Error fetching artifact details:", error);
         throw error;
@@ -111,4 +114,3 @@ export const useArtStore = create((set, get) => ({
     }
   },
 }));
-

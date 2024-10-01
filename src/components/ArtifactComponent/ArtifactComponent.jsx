@@ -14,26 +14,32 @@ const ArtifactComponent = ({ id }) => {
   const setDetailsModalData = useArtStore((state) => state.setDetailsModalData);
   const getArtifactDetails = useArtStore((state) => state.getArtifactDetails);
 
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState(undefined);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleImageLoaded = () => {
     setImageLoaded(true);
   };
 
-  const fadeInProps = useSpring({ opacity: 1, from: { opacity: 0 } });
+  const fadeInProps = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    config: { duration: 200 },
+  });
 
   const fadeInPropsImage = useSpring({
     opacity: imageLoaded ? 1 : 0,
   });
 
-  const [{ transform, opacity }, setAnimatedProps] = useSpring(
-    () => ({
-      transform: "scale(1)",
-      opacity: "0.7",
-      marginTop: 0,
-    })
-  );
+  const defaultAnimatedProps = {
+    opacity: "0.8",
+    transform: "scale(1)",
+    config: { duration: 100 },
+  };
+
+  const [{ transform, opacity }, setAnimatedProps] = useSpring(() => ({
+    ...defaultAnimatedProps,
+  }));
 
   useEffect(() => {
     const abortController = new AbortController(); // this is used to cancel ongoing fetch requests when user updates the keyword to make sure we don't wait for expired requests to go through
@@ -50,9 +56,9 @@ const ArtifactComponent = ({ id }) => {
   }, [getArtifactDetails, id, inView]);
 
   const renderCardContent = () => {
-    if (!inView) if (!inView) return null;
+    if (!inView) return null;
 
-    if (item == null) return <Shimmer />;
+    if (item === undefined) return <Shimmer />;
 
     return (
       <animated.div
@@ -78,6 +84,10 @@ const ArtifactComponent = ({ id }) => {
     );
   };
 
+  if (item === null) 
+    return null;
+  
+
   return (
     <animated.div
       style={{ ...fadeInProps, transform }}
@@ -86,13 +96,13 @@ const ArtifactComponent = ({ id }) => {
       onMouseOver={() =>
         setAnimatedProps({
           opacity: "1",
-          transform: "scale(1.06)",
+          transform: "scale(1.03)",
+          config: { duration: 200 },
         })
       }
       onMouseLeave={() =>
         setAnimatedProps({
-          opacity: "0.7",
-          transform: "scale(1)",
+          ...defaultAnimatedProps,
         })
       }
     >
