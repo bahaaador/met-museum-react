@@ -4,7 +4,7 @@
 
 This project creates a simplified user experience for exploring the Metropolitan Museum of Art collection using their [public API](https://metmuseum.github.io/). It demonstrates techniques for efficiently scrolling through thousands of artifacts without compromising performance.
 
-![Screen cast of using the app to search for the keyword scarab](./ReadmeAssets/metScreenCast.gif)
+[![Screen cast of using the app to search for the keyword scarab](http://i.ytimg.com/vi/hfpoIOHFre8/hqdefault.jpg)](https://www.youtube.com/watch?v=hfpoIOHFre8)
 
 Try the live app: [Met Museum React Experience](https://met.bahador.dev/)
 

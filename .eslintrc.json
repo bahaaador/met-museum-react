@@ -21,7 +21,8 @@
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
       "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-      "react/no-unescaped-entities": "off"
+      "react/no-unescaped-entities": "off",
+      "no-console": "warn"
     },
     "settings": {
       "react": {

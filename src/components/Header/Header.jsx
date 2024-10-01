@@ -50,7 +50,6 @@ const Header = () => {
     };
   }, []);
 
-
   return (
     <animated.div className="header">
       <animated.div style={rollOpenProps}>
@@ -65,6 +64,7 @@ const Header = () => {
         aria-label="search term"
         data-testid="searchInput"
         ref={inputRef}
+        value={keyword}
       />
       <ResultsCaption total={total} keyword={keyword} />
     </animated.div>

@@ -12,9 +12,9 @@
 .modal-content {
   position: fixed;
   top: 50%;
-  left: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 5px;
-  transform: translate(-20%, -50%);
   background: white;
   padding: 25px;
   -webkit-box-shadow: 10px 10px 54px -20px rgba(0, 0, 0, 0.75);
@@ -23,6 +23,13 @@
   border: 0.6px #bdbdbd solid;
   font-family: "Montserrat";
   background-color: #f9f4eefa;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    transform: translate(-5%, -50%);
+    left: 10%;
+  }
 }
 
 .carousel-wrapper {

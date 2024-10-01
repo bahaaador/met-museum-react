@@ -24,7 +24,7 @@
 .card .artifact-info {
   position: absolute;
   color: white;
-  background: linear-gradient(90deg, #6f6965 0%, #ae967c 35%, #fff 100%);
+  background: linear-gradient(90deg, #6f6965 0%, #ae967c 50%, #c5ad93 70%, #ae967c 850%, #6f6965 100%);
   width: 100%;
   left: 0;
   bottom: 0;
@@ -42,6 +42,9 @@
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .artifact-subtitle {
