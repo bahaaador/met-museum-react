@@ -11,8 +11,8 @@
     "test": "vitest",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "lint": "eslint src --fix",
-    "format": "prettier --write \"src/**/*.js\"",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "precommit": "npm run lint && npm run format"
   },
   "dependencies": {

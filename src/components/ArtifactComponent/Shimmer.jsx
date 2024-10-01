@@ -1,3 +1,4 @@
+import React from "react";
 import "./ArtifactComponent.css";
 
 const Shimmer = () => (

@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, memo } from "react";
 import { useSpring, animated } from "@react-spring/web";
 
-import { useArtStore } from "@store/artStore";
+import { useArtStore } from "@store/useArtStore";
 
 import "./Header.css";
 
 const Header = () => {
-  const { keyword, total, setKeyword } = useArtStore();
+  const keyword = useArtStore((state) => state.keyword);
+  const total = useArtStore((state) => state.total);
+  const setKeyword = useArtStore((state) => state.setKeyword);
 
   const handleScroll = () => {
     if (window.scrollY < 10) setScrolled(false);
@@ -41,14 +43,13 @@ const Header = () => {
     inputRef.current.focus();
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeoutToken.current);
+      timeoutToken.current = null;
+    };
   }, []);
 
-  // useEffect(() => {
-  //   if (keyword) {
-  //     searchArtworks(keyword);
-  //   }
-  // }, [keyword]);
 
   return (
     <animated.div className="header">
@@ -77,4 +78,4 @@ const ResultsCaption = ({ total, keyword, ...props }) =>
     </animated.span>
   ) : null;
 
-export default Header;
+export default memo(Header);

@@ -1,7 +1,5 @@
 import { create } from "zustand";
 import { fetchArtifactDetails, fetchSearchResult } from "@api/museumApi";
-import { useArtSearch } from "@/hooks/useArtSearch";
-import { subscribeWithSelector } from "zustand/middleware";
 
 const INITIAL_STATE = {
   keyword: "",
@@ -114,4 +112,3 @@ export const useArtStore = create((set, get) => ({
   },
 }));
 
-export const getArtState = useArtStore.getState;

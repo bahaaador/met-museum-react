@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSpring, animated } from "@react-spring/web";
-import { useArtStore } from "@store/artStore";
+import { useArtStore } from "@store/useArtStore";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import "./DetailsModal.css";
 
 const DetailsModal = () => {
-  const { detailsModalData, setDetailsModalOpen } = useArtStore();
+  const detailsModalData = useArtStore((state) => state.detailsModalData);
+  const setDetailsModalOpen = useArtStore((state) => state.setDetailsModalOpen);
+
   const [isOpen, setIsOpen] = useState(true); // local state is used for animations only
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -49,12 +51,12 @@ const DetailsModal = () => {
   const nextImage = useCallback(() => {
     if (currentImageIndex < totalImages - 1)
       setCurrentImageIndex((prevIndex) => prevIndex + 1);
-  }, [currentImageIndex, setCurrentImageIndex]);
+  }, [currentImageIndex, totalImages]);
 
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
     if (currentImageIndex > 0)
       setCurrentImageIndex((prevIndex) => prevIndex - 1);
-  };
+  }, [currentImageIndex]);
 
   const getAllImages = () => {
     const additionalImages =
@@ -74,7 +76,7 @@ const DetailsModal = () => {
         prevImage();
       }
     },
-    [currentImageIndex, onClose]
+    [hasAdditionalImages, nextImage, onClose, prevImage]
   );
 
   useEffect(() => {

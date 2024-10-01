@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
-import { useArtStore } from "@store/artStore";
+import { useArtStore } from "@store/useArtStore";
 import Shimmer from "./Shimmer";
 
 import "./ArtifactComponent.css";
@@ -11,7 +11,9 @@ const ArtifactComponent = ({ id }) => {
     rootMargin: "200px 0px",
   });
 
-  const { setDetailsModalData, getArtifactDetails } = useArtStore();
+  const setDetailsModalData = useArtStore((state) => state.setDetailsModalData);
+  const getArtifactDetails = useArtStore((state) => state.getArtifactDetails);
+
   const [item, setItem] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -45,7 +47,7 @@ const ArtifactComponent = ({ id }) => {
     return function cleanup() {
       abortController.abort();
     };
-  }, [id, inView]);
+  }, [getArtifactDetails, id, inView]);
 
   const renderCardContent = () => {
     if (!inView) if (!inView) return null;

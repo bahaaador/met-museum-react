@@ -1,8 +1,10 @@
-import { useArtStore } from '../store/artStore';
+import { useArtStore } from '../store/useArtStore';
 import { fetchArtifactDetails } from '../api/artifactApi'; // Assume this function exists
 
 export function useArtDetails(artifactId) {
-  const { getFromCache, addToCache } = useArtStore();
+  
+  const getFromCache = useArtStore((state) => state.getFromCache);
+  const addToCache = useArtStore((state) => state.addToCache);
 
 const CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 

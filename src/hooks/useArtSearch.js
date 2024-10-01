@@ -1,10 +1,13 @@
 import { useCallback } from 'react';
-import { useArtStore } from '@store/artStore';
+import { useArtStore } from '@store/useArtStore';
 import { useApi } from '@hooks/useApi';
 import { fetchSearchResult } from '@api/museumApi';
 
 export const useArtSearch = () => {
-  const { setKeyword, setObjectIDs, setTotal } = useArtStore();
+  const setKeyword = useArtStore((state) => state.setKeyword);
+  const setObjectIDs = useArtStore((state) => state.setObjectIDs);
+  const setTotal = useArtStore((state) => state.setTotal);
+
   const { execute, isLoading, error } = useApi(fetchSearchResult);
 
   const searchArtworks = useCallback(async (keyword) => {
