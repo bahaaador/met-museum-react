@@ -1,6 +1,7 @@
 # Metropolitan Museum of Art Experience
 
 [![Deploy to GitHub Pages](https://github.com/bahaaador/met-museum-react/actions/workflows/deploy.yml/badge.svg)](https://github.com/bahaaador/met-museum-react/actions/workflows/deploy.yml)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbahaaador%2Fmet-museum-react.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbahaaador%2Fmet-museum-react?ref=badge_shield)
 
 This project creates a simplified user experience for exploring the Metropolitan Museum of Art collection using their [public API](https://metmuseum.github.io/). It demonstrates techniques for efficiently scrolling through thousands of artifacts without compromising performance.
 
@@ -84,3 +85,7 @@ During the development of this project, I faced several interesting challenges:
 1. Optimizing the infinite scroll for thousands of items without sacrificing performance.
 2. Implementing a smooth, accessible user experience that respects user preferences.
 3. Balancing between immediate responsiveness and efficient API usage.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbahaaador%2Fmet-museum-react.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbahaaador%2Fmet-museum-react?ref=badge_large)
